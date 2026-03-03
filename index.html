@@ -26,7 +26,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       background: var(--bg);
       color: var(--ink);
@@ -47,7 +47,7 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 50px 56px;
+      padding: 22px 56px;
       transition: background 0.3s, border-color 0.3s;
       border-bottom: 1px solid transparent;
     }
@@ -297,18 +297,75 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 640px) {
-      nav { padding: 18px 20px; }
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+
+      .hero { padding: 120px 16px 48px; }
+
+      .hero-tag { font-size: 0.6rem; margin-bottom: 16px; }
+
+      .hero-title { font-size: clamp(2rem, 10vw, 3.2rem); margin-bottom: 16px; }
+
+      .hero-sub { font-size: 0.9rem; max-width: 100%; }
+
+      .ext-bar-wrap { padding: 48px 16px 0; }
+
+      .ext-bar { padding: 8px; border-radius: 16px; }
+
+      .ext-row {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 12px;
+      }
+
+      .ext-icon { width: 40px; height: 40px; }
+
+      .ext-info { min-width: 0; flex: 1 1 60%; }
+
+      .ext-name { font-size: 0.85rem; }
+
+      .ext-tagline {
+        white-space: normal;
+        font-size: 0.75rem;
+        line-height: 1.4;
+      }
+
       .ext-badges { display: none; }
-      .ext-actions { flex-direction: column; gap: 6px; }
-      footer { padding: 28px 20px; flex-direction: column; }
+
+      .ext-actions {
+        width: 100%;
+        flex-direction: row;
+        gap: 8px;
+      }
+
+      .btn-learn, .btn-add {
+        flex: 1;
+        justify-content: center;
+        font-size: 0.68rem;
+        padding: 8px 10px;
+      }
+
+      footer {
+        padding: 28px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      /* Donation section */
+      #cooldownCard { margin: 0 16px; }
+    }
+
+    @media (max-width: 400px) {
+      .ext-actions { flex-direction: column; }
+      .btn-learn, .btn-add { width: 100%; }
     }
   </style>
 </head>
 <body>
 
   <nav id="nav">
-    <a class="nav-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:40px;height:40px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span>Ai</span>vorin</a>
+    <a class="nav-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:28px;height:28px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span>Ai</span>vorin</a>
   </nav>
 
   <div class="hero">
@@ -366,7 +423,7 @@
     </div>
   </div>
 
-  <div style="text-align:center; padding: 48px 24px 0; border-top: 1px solid var(--border);">
+  <div style="text-align:center; padding: 48px 20px 0; border-top: 1px solid var(--border);">
     <p style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.18em; color:var(--ink-muted); margin-bottom:14px;">SUPPORT THE PROJECT</p>
     <p style="font-size:0.9rem; color:var(--ink-soft); margin-bottom:20px; line-height:1.7;">We create to make your day. If Aivorin makes your life easier,<br/>your support helps us build more.</p>
     <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener"
@@ -378,7 +435,7 @@
   </div>
 
   <footer>
-    <span class="footer-brand"><img src="aivorinlogo.png" alt="Aivorin" style="width:32px;height:32px;border-radius:50%;margin-right:8px;vertical-align:middle;opacity:0.7;" /><span>Ai</span>vorin</span>
+    <span class="footer-brand"><img src="aivorinlogo.png" alt="Aivorin" style="width:22px;height:22px;border-radius:50%;margin-right:8px;vertical-align:middle;opacity:0.7;" /><span>Ai</span>vorin</span>
     <span class="footer-note">FREE · PRIVATE · OPEN</span>
   </footer>
 
