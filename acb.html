@@ -26,7 +26,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       background: var(--bg);
       color: var(--ink);
@@ -541,21 +541,81 @@
     }
 
     @media (max-width: 800px) {
-      .hero { grid-template-columns: 1fr; }
+      nav { padding: 16px 20px; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 120px 20px 60px;
+        gap: 40px;
+      }
       .hero-right { display: none; }
-      .steps { grid-template-columns: 1fr; }
+
+      .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
+
+      .hero-sub { font-size: 0.9rem; max-width: 100%; }
+
+      .hero-btns {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.78rem;
+      }
+
+      .section { padding: 72px 20px; }
+
+      .s-title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+
+      .steps { grid-template-columns: 1fr; gap: 16px; }
       .step-arrow { display: none; }
-      .features { grid-template-columns: 1fr; }
-      .privacy-inner { grid-template-columns: 1fr; gap: 28px; }
-      nav { padding: 18px 20px; }
-      footer { padding: 28px 20px; flex-direction: column; }
+
+      .features { grid-template-columns: 1fr; gap: 3px; }
+
+      .privacy-inner {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        padding: 36px 20px;
+      }
+      .priv-num { font-size: 1.8rem; }
+
+      .faq-q { font-size: 0.84rem; padding: 16px 18px; }
+      .faq-a-inner { padding: 14px 18px 18px; }
+
+      .cta { padding: 80px 20px; }
+      .cta-btns { flex-direction: column; align-items: center; gap: 10px; }
+      .cta-btns .btn-primary,
+      .cta-btns .btn-secondary {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+      }
+
+      footer {
+        padding: 28px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .privacy-inner { grid-template-columns: 1fr; gap: 20px; text-align: left; }
+      .priv-num { font-size: 2rem; }
+
+      .hero-eyebrow { font-size: 0.58rem; }
+
+      .s-label { font-size: 0.6rem; }
+
+      .feat, .step { padding: 24px 20px; }
     }
   </style>
 </head>
 <body>
 
   <nav id="nav">
-    <a class="nav-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:40px;height:40px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span>Ai</span>vorin</a>
+    <a class="nav-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:28px;height:28px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span>Ai</span>vorin</a>
     <a class="nav-back" href="index.html">
       <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
       All extensions
@@ -752,7 +812,7 @@
   </div>
 
   <footer>
-    <a class="footer-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:32px;height:32px;border-radius:50%;margin-right:8px;vertical-align:middle;opacity:0.7;" /><span>Ai</span>vorin</a>
+    <a class="footer-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:22px;height:22px;border-radius:50%;margin-right:8px;vertical-align:middle;opacity:0.7;" /><span>Ai</span>vorin</a>
     <span class="footer-note">ACB · FREE · PRIVATE · NO DATA COLLECTED</span>
   </footer>
 
