@@ -26,7 +26,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
+    html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
       color: var(--ink);
@@ -45,7 +45,7 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 22px 56px;
+      padding: 22px clamp(16px, 5vw, 56px);
       border-bottom: 1px solid transparent;
       transition: background 0.3s, border-color 0.3s;
     }
@@ -83,7 +83,7 @@
     .wrap {
       max-width: 1060px;
       margin: 0 auto;
-      padding: 0 32px;
+      padding: 0 clamp(16px, 4vw, 32px);
     }
 
     .divider {
@@ -100,6 +100,7 @@
       grid-template-columns: 1fr 320px;
       gap: 64px;
       align-items: center;
+      min-width: 0;
     }
 
     .hero-left {}
@@ -275,7 +276,7 @@
 
     /* ── Section ── */
     .section {
-      padding: 100px 32px;
+      padding: 100px clamp(16px, 4vw, 32px);
       max-width: 1060px;
       margin: 0 auto;
     }
@@ -510,7 +511,7 @@
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 36px 56px;
+      padding: 36px clamp(16px, 5vw, 56px);
       display: flex; align-items: center;
       justify-content: space-between;
       flex-wrap: wrap; gap: 16px;
@@ -540,75 +541,108 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── Tablet ── */
+    @media (max-width: 900px) {
+      .hero { padding: 130px 24px 60px; }
+      .features { grid-template-columns: 1fr; }
+      .section { padding: 90px 24px; }
+    }
+
+    /* ── Mobile landscape / large phone ── */
     @media (max-width: 800px) {
       nav { padding: 16px 20px; }
 
       .hero {
         grid-template-columns: 1fr;
-        padding: 120px 20px 60px;
-        gap: 40px;
+        padding: 120px 20px 56px;
+        gap: 36px;
       }
       .hero-right { display: none; }
-
-      .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
-
+      .hero-title { font-size: clamp(1.9rem, 8vw, 3rem); }
       .hero-sub { font-size: 0.9rem; max-width: 100%; }
-
-      .hero-btns {
-        flex-direction: column;
-        gap: 10px;
-      }
+      .hero-btns { flex-direction: column; gap: 10px; }
       .btn-primary, .btn-secondary {
         width: 100%;
         justify-content: center;
         font-size: 0.78rem;
+        box-sizing: border-box;
       }
 
-      .section { padding: 72px 20px; }
+      .section { padding: 72px clamp(16px, 4vw, 24px); }
+      .s-title { font-size: clamp(1.5rem, 5.5vw, 2.2rem); }
+      .s-body { max-width: 100%; }
 
-      .s-title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
-
-      .steps { grid-template-columns: 1fr; gap: 16px; }
+      .steps { grid-template-columns: 1fr; gap: 12px; }
       .step-arrow { display: none; }
+      .step { padding: 24px 20px; }
 
       .features { grid-template-columns: 1fr; gap: 3px; }
+      .feat { padding: 24px 20px; }
 
+      .privacy-strip { overflow: hidden; }
       .privacy-inner {
         grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        padding: 36px 20px;
+        gap: 12px;
+        padding: 36px 16px;
       }
-      .priv-num { font-size: 1.8rem; }
+      .priv-num { font-size: 1.7rem; }
+      .priv-label { font-size: 0.55rem; }
 
       .faq-q { font-size: 0.84rem; padding: 16px 18px; }
       .faq-a-inner { padding: 14px 18px 18px; }
 
       .cta { padding: 80px 20px; }
-      .cta-btns { flex-direction: column; align-items: center; gap: 10px; }
+      .cta-btns {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        max-width: 320px;
+        margin: 0 auto;
+      }
       .cta-btns .btn-primary,
       .cta-btns .btn-secondary {
         width: 100%;
-        max-width: 320px;
         justify-content: center;
       }
 
       footer {
-        padding: 28px 20px;
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
       }
     }
 
+    /* ── Small phone ── */
     @media (max-width: 480px) {
-      .privacy-inner { grid-template-columns: 1fr; gap: 20px; text-align: left; }
-      .priv-num { font-size: 2rem; }
-
+      .hero { padding: 108px 16px 48px; }
       .hero-eyebrow { font-size: 0.58rem; }
+      .hero-title { font-size: clamp(1.7rem, 9vw, 2.4rem); }
 
-      .s-label { font-size: 0.6rem; }
+      .privacy-inner {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        text-align: left;
+      }
+      .priv-num { font-size: 2rem; }
+      .priv-label { font-size: 0.6rem; }
 
-      .feat, .step { padding: 24px 20px; }
+      .s-label { font-size: 0.58rem; }
+      .s-title { font-size: clamp(1.4rem, 7vw, 2rem); }
+
+      .faq-item { border-radius: 8px; }
+      .faq-q { padding: 14px 16px; font-size: 0.82rem; }
+      .faq-a-inner { padding: 12px 16px 16px; }
+    }
+
+    /* ── Very small (320px) ── */
+    @media (max-width: 360px) {
+      nav { padding: 14px 16px; }
+      .hero { padding: 100px 14px 40px; }
+      .section { padding: 60px 14px; }
+      .step, .feat { padding: 20px 16px; }
+      .faq-q { padding: 12px 14px; font-size: 0.8rem; }
+      .faq-a-inner { padding: 10px 14px 14px; }
+      .cta { padding: 60px 14px; }
     }
   </style>
 </head>
