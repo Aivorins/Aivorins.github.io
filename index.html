@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aivorin — Build the rest.</title>
+  <meta name="description" content="Aivorin builds free, private browser tools for people who value their focus and their data." />
+  <link rel="icon" type="image/png" href="aivorinlogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0c0f0a;
+      --surface:   #131710;
+      --surface-2: #1a1f16;
+      --border:    rgba(255,255,255,0.07);
+      --ink:       #edeae4;
+      --ink-soft:  #8a8780;
+      --ink-muted: #4a4845;
+      --sage:      #7aab80;
+      --sage-dim:  #4a7a50;
+      --sage-glow: rgba(122,171,128,0.12);
+      --mono:      'DM Mono', monospace;
+      --serif:     'DM Serif Display', Georgia, serif;
+      --sans:      'Instrument Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px clamp(16px, 5vw, 56px);
+      transition: background 0.3s, border-color 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(12,15,10,0.92);
+      backdrop-filter: blur(20px);
+      border-color: var(--border);
+    }
+    .nav-brand {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+      letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: var(--sage); font-style: italic; }
+    .nav-links {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-link {
+      font-family: var(--mono); font-size: 0.68rem;
+      letter-spacing: 0.08em; color: var(--ink-muted);
+      text-decoration: none; padding: 7px 14px;
+      border-radius: 6px; border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-link:hover { color: var(--ink-soft); border-color: var(--border); }
+    .nav-link.cta {
+      color: var(--sage);
+      border-color: rgba(122,171,128,0.25);
+      background: var(--sage-glow);
+    }
+    .nav-link.cta:hover { background: rgba(122,171,128,0.18); color: var(--sage); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Radial glow behind hologram */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(122,171,128,0.07) 0%, transparent 68%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* ── Particle Hologram ── */
+    .hologram-wrap {
+      position: relative;
+      margin-bottom: 52px;
+      opacity: 0;
+      animation: up 1s 0.1s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    #holoCanvas {
+      display: block;
+      filter: drop-shadow(0 0 18px rgba(122,171,128,0.45));
+    }
+
+    /* Corner brackets */
+    .holo-frame {
+      position: absolute;
+      inset: -12px;
+      pointer-events: none;
+    }
+    .holo-frame::before,
+    .holo-frame::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      border-color: var(--sage-dim);
+      border-style: solid;
+      opacity: 0.5;
+    }
+    .holo-frame::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+    .holo-frame::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+    .holo-frame-tr,
+    .holo-frame-bl {
+      position: absolute;
+      width: 16px; height: 16px;
+      border-color: var(--sage-dim);
+      border-style: solid;
+      opacity: 0.5;
+    }
+    .holo-frame-tr { top: -12px; right: -12px; border-width: 1px 1px 0 0; }
+    .holo-frame-bl { bottom: -12px; left: -12px; border-width: 0 0 1px 1px; }
+
+    /* Status line */
+    .holo-status {
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      color: var(--sage-dim);
+      text-align: center;
+      opacity: 0.7;
+    }
+    .holo-status .blink { animation: blink 1.4s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── Hero text ── */
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--sage);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: up 0.8s 0.3s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      max-width: 680px;
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: up 0.9s 0.4s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--sage); }
+    .hero-sub {
+      font-size: 0.98rem;
+      color: var(--ink-soft);
+      max-width: 400px;
+      line-height: 1.85;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: up 0.9s 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .hero-cta {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      opacity: 0;
+      animation: up 0.9s 0.62s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--sage); color: #0c0f0a;
+      font-family: var(--mono); font-size: 0.72rem;
+      font-weight: 500; letter-spacing: 0.08em;
+      padding: 12px 26px; border-radius: 8px;
+      text-decoration: none; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #8fc496; transform: translateY(-2px); }
+    .btn-primary svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--ink-soft);
+      font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.08em; padding: 12px 22px;
+      border-radius: 8px; border: 1px solid var(--border);
+      text-decoration: none; transition: color 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { color: var(--ink); border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+
+    /* ── About section ── */
+    .about {
+      padding: 120px clamp(16px, 8vw, 120px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .about-label {
+      font-family: var(--mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; color: var(--sage);
+      margin-bottom: 20px;
+    }
+    .about-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .about-title em { font-style: italic; color: var(--sage); }
+    .about-body {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      line-height: 1.9;
+    }
+    .about-body p + p { margin-top: 16px; }
+
+    .about-values {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .value-item {
+      padding: 22px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      transition: border-color 0.2s;
+    }
+    .value-item:hover { border-color: rgba(122,171,128,0.2); }
+    .value-tag {
+      font-family: var(--mono); font-size: 0.6rem;
+      letter-spacing: 0.15em; color: var(--sage);
+      margin-bottom: 8px;
+    }
+    .value-title {
+      font-family: var(--serif); font-size: 1.1rem;
+      margin-bottom: 6px; letter-spacing: -0.01em;
+    }
+    .value-body { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* ── Extensions preview ── */
+    .ext-preview {
+      padding: 100px clamp(16px, 5vw, 56px);
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .section-label {
+      font-family: var(--mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; color: var(--ink-muted); margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-title em { font-style: italic; color: var(--sage); }
+    .section-sub {
+      font-size: 0.9rem; color: var(--ink-soft);
+      max-width: 380px; margin: 0 auto 48px; line-height: 1.8;
+    }
+    .ext-cards {
+      display: flex; gap: 16px; justify-content: center;
+      flex-wrap: wrap; max-width: 800px; margin: 0 auto 40px;
+    }
+    .ext-card {
+      flex: 1; min-width: 220px; max-width: 320px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 24px;
+      text-align: left; text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .ext-card:hover { border-color: rgba(122,171,128,0.25); transform: translateY(-4px); }
+    .ext-card-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--sage-glow); border: 1px solid rgba(122,171,128,0.15);
+      display: grid; place-items: center;
+    }
+    .ext-card-name { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+    .ext-card-desc { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.6; }
+    .ext-card-badge {
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.08em; color: var(--sage);
+      border: 1px solid rgba(122,171,128,0.2);
+      padding: 3px 8px; border-radius: 4px;
+      width: fit-content;
+    }
+
+    /* ── Support ── */
+    .support {
+      padding: 100px clamp(16px, 5vw, 56px);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .support .section-sub { margin-bottom: 28px; }
+    .btn-support {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid rgba(122,171,128,0.25);
+      color: var(--sage); font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.08em; padding: 12px 26px; border-radius: 8px;
+      text-decoration: none; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-support:hover { background: var(--surface-2); transform: translateY(-2px); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px clamp(16px, 5vw, 56px);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-brand { font-family: var(--serif); font-size: 1rem; color: var(--ink-soft); display: flex; align-items: center; gap: 8px; }
+    .footer-brand span { color: var(--sage); font-style: italic; }
+    .footer-note { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--ink-muted); }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 860px) {
+      .about { grid-template-columns: 1fr; gap: 48px; padding: 80px clamp(16px,5vw,40px); }
+    }
+    @media (max-width: 560px) {
+      .nav-links .nav-link:not(.cta) { display: none; }
+      .hero { padding: 100px 16px 60px; }
+      .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
+      .hologram { font-size: 5px; }
+      .ext-cards { flex-direction: column; align-items: center; }
+      .ext-card { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <a class="nav-brand" href="index.html">
+      <img src="aivorinlogo.png" alt="Aivorin" style="width:28px;height:28px;border-radius:50%;" />
+      <span>Ai</span>vorin
+    </a>
+    <div class="nav-links">
+      <a href="#about" class="nav-link">About</a>
+      <a href="extensions.html" class="nav-link">Extensions</a>
+      <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="nav-link">Support</a>
+      <a href="extensions.html" class="nav-link cta">
+        Browse Tools →
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hologram-wrap">
+      <div class="holo-frame">
+        <div class="holo-frame-tr"></div>
+        <div class="holo-frame-bl"></div>
+      </div>
+      <canvas id="holoCanvas" width="220" height="220" aria-hidden="true"></canvas>
+      <div class="holo-status">AIVORIN.SYS <span class="blink">█</span></div>
+    </div>
+
+    <p class="hero-tag">FREE · PRIVATE · FOCUSED</p>
+    <h1 class="hero-title">We build the tools.<br/><em>You build the rest.</em></h1>
+    <p class="hero-sub">Browser extensions crafted to do exactly one thing well. No accounts, no tracking, no noise.</p>
+    <div class="hero-cta">
+      <a href="extensions.html" class="btn-primary">
+        Browse Extensions
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#about" class="btn-ghost">Who we are</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="reveal">
+      <p class="about-label">ABOUT AIVORIN</p>
+      <h2 class="about-title">Built for people who<br/><em>value their attention.</em></h2>
+      <div class="about-body">
+        <p>Aivorin is an independent studio building free browser tools. No venture funding, no growth metrics, no dark patterns.</p>
+        <p>Every extension does one thing and does it well. We believe software should be honest about what it does and invisible when it doesn't need to be.</p>
+        <p>All tools are free, require no account, and collect zero data. That's the whole deal.</p>
+      </div>
+    </div>
+    <div class="about-values reveal" style="transition-delay:0.15s">
+      <div class="value-item">
+        <div class="value-tag">PRINCIPLE 01</div>
+        <div class="value-title">Zero data. Zero noise.</div>
+        <div class="value-body">Nothing is collected, stored, or shared. Your browser stays yours.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-tag">PRINCIPLE 02</div>
+        <div class="value-title">Free. Always.</div>
+        <div class="value-body">Every tool is free. Support is appreciated but never required to access anything.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-tag">PRINCIPLE 03</div>
+        <div class="value-title">One tool, one job.</div>
+        <div class="value-body">No feature bloat. Each extension solves a single problem and gets out of the way.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Extensions preview -->
+  <section class="ext-preview" id="extensions">
+    <p class="section-label reveal">EXTENSIONS</p>
+    <h2 class="section-title reveal" style="transition-delay:0.1s">The tools <em>so far.</em></h2>
+    <p class="section-sub reveal" style="transition-delay:0.15s">Two extensions live. More in development.</p>
+    <div class="ext-cards">
+      <a href="acb.html" class="ext-card reveal" style="transition-delay:0.1s">
+        <div class="ext-card-icon">
+          <img src="img1.png" alt="ACB" style="width:28px;height:28px;object-fit:contain;border-radius:4px;" />
+        </div>
+        <div>
+          <div class="ext-card-name">ACB</div>
+          <div class="ext-card-desc">Adult content blocker. 30,000+ domain rules, live text scanning, password protected.</div>
+        </div>
+        <div class="ext-card-badge">FREE · OPERA</div>
+      </a>
+      <a href="nonoise.html" class="ext-card reveal" style="transition-delay:0.2s">
+        <div class="ext-card-icon">
+          <img src="img2.png" alt="NoNoise" style="width:28px;height:28px;object-fit:contain;border-radius:4px;" />
+        </div>
+        <div>
+          <div class="ext-card-name">NoNoise</div>
+          <div class="ext-card-desc">Social media blocker. Auto-closes distracting tabs. Password protected, fully customisable.</div>
+        </div>
+        <div class="ext-card-badge">FREE · OPERA</div>
+      </a>
+    </div>
+    <a href="extensions.html" class="btn-ghost reveal" style="transition-delay:0.25s">View all extensions →</a>
+  </section>
+
+  <!-- Support -->
+  <section class="support" id="support">
+    <p class="section-label reveal">SUPPORT THE PROJECT</p>
+    <h2 class="section-title reveal" style="transition-delay:0.1s">Keep it <em>free.</em></h2>
+    <p class="section-sub reveal" style="transition-delay:0.15s">If Aivorin makes your day a little easier, your support helps us keep building.</p>
+    <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="btn-support reveal" style="transition-delay:0.2s">
+      ♥ &nbsp;Support via Coindrop
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span class="footer-brand">
+      <img src="aivorinlogo.png" alt="Aivorin" style="width:22px;height:22px;border-radius:50%;opacity:0.7;" />
+      <span>Ai</span>vorin
+    </span>
+    <span class="footer-note">FREE · PRIVATE · OPEN</span>
+  </footer>
+
+  <script>
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+    }, { passive: true });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ── Two particle rings around aivorinlogo.png ──
+    const canvas = document.getElementById('holoCanvas');
+    const ctx    = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W / 2, cy = H / 2;
+    const LOGO_R = 38; // logo clip radius
+
+    // ── Ring paths ──
+    // Ring 1: flat circle tilted in perspective (rx big, ry small)
+    // Ring 2: another circle at different tilt/speed
+    // Both go FULLY around — we draw them in two passes:
+    //   pass A (behind logo): clip to OUTSIDE the logo circle
+    //   pass B (in front):    drawn normally on top of logo
+    // This way every particle is always visible — just dimmed when "behind"
+
+    function makeEllipsePts(n, rx, ry, tiltRad) {
+      const cosT = Math.cos(tiltRad), sinT = Math.sin(tiltRad);
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        const a = (2 * Math.PI * i) / n;
+        const ex = rx * Math.cos(a), ey = ry * Math.sin(a);
+        pts.push({
+          x: cx + ex * cosT - ey * sinT,
+          y: cy + ex * sinT + ey * cosT,
+          // sin(a) > 0 = bottom arc = visually "behind" the logo
+          behind: Math.sin(a) > 0
+        });
+      }
+      return pts;
+    }
+
+    // Ring 1: wide flat orbit, tilted ~20deg
+    const r1Pts = makeEllipsePts(300, 78, 22, -0.35);
+    // Ring 2: upright-ish orbit tilted ~60deg the other way, different radius
+    const r2Pts = makeEllipsePts(300, 72, 30,  0.55);
+
+    class Particle {
+      constructor(pts, speed, offset, baseSize) {
+        this.pts  = pts;
+        this.speed = speed;
+        this.t    = offset;
+        this.x    = pts[0].x;
+        this.y    = pts[0].y;
+        this.ox   = 0; this.oy = 0;
+        this.size = baseSize + Math.random() * 0.8;
+        this.alpha = Math.random() * 0.3 + 0.7;
+      }
+      update() {
+        this.t = (this.t + this.speed) % 1;
+        const n  = this.pts.length;
+        const fi = this.t * n;
+        const i0 = Math.floor(fi) % n;
+        const i1 = (i0 + 1) % n;
+        const f  = fi - Math.floor(fi);
+        const p0 = this.pts[i0], p1 = this.pts[i1];
+        this.x = p0.x + (p1.x - p0.x) * f + this.ox;
+        this.y = p0.y + (p1.y - p0.y) * f + this.oy;
+        this.ox += (Math.random() - 0.5) * 0.15;
+        this.oy += (Math.random() - 0.5) * 0.15;
+        this.ox *= 0.78; this.oy *= 0.78;
+        this.alpha += (Math.random() - 0.5) * 0.04;
+        this.alpha = Math.max(0.25, Math.min(1.0, this.alpha));
+      }
+      isBehind() {
+        const i = Math.floor(this.t * this.pts.length) % this.pts.length;
+        return this.pts[i].behind;
+      }
+      draw(alpha, color) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = this.alpha * alpha;
+        ctx.fill();
+      }
+    }
+
+    const r1 = Array.from({length: 140}, (_, i) =>
+      new Particle(r1Pts, 0.0006 + Math.random() * 0.0003, i / 140, 1.2));
+    const r2 = Array.from({length: 140}, (_, i) =>
+      new Particle(r2Pts, 0.001  + Math.random() * 0.0004, i / 140, 1.2));
+
+    const logo = new Image();
+    logo.src = 'aivorinlogo.png';
+    const LOGO_SIZE = LOGO_R * 2;
+
+    function clipOutsideLogo() {
+      // Clip region = everything EXCEPT the logo circle
+      ctx.beginPath();
+      ctx.rect(0, 0, W, H);
+      ctx.arc(cx, cy, LOGO_R, 0, Math.PI * 2, true); // true = counterclockwise = hole
+      ctx.clip('evenodd');
+    }
+
+    function drawLogo() {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, LOGO_R, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.globalAlpha = 1;
+      if (logo.complete && logo.naturalWidth > 0) {
+        ctx.drawImage(logo, cx - LOGO_R, cy - LOGO_R, LOGO_SIZE, LOGO_SIZE);
+      } else {
+        ctx.fillStyle = '#0d110b';
+        ctx.fillRect(cx - LOGO_R, cy - LOGO_R, LOGO_SIZE, LOGO_SIZE);
+        ctx.strokeStyle = 'rgba(255,255,255,0.88)';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.arc(cx, cy, 14, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(cx, cy, 23, 7, -0.45, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    let scanY = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Background
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#0c0f0a';
+      ctx.fillRect(0, 0, W, H);
+
+      // Glow
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 95);
+      grd.addColorStop(0, 'rgba(122,171,128,0.1)');
+      grd.addColorStop(1, 'transparent');
+      ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
+
+      // Update all particles
+      for (const p of r1) p.update();
+      for (const p of r2) p.update();
+
+      // ── PASS 1: draw "behind" portions clipped outside logo ──
+      ctx.save();
+      clipOutsideLogo();
+      for (const p of r1) if ( p.isBehind()) p.draw(0.45, '#7aab80');
+      for (const p of r2) if ( p.isBehind()) p.draw(0.45, '#9acca0');
+      ctx.restore();
+
+      // ── Draw logo ──
+      drawLogo();
+
+      // ── PASS 2: draw "front" portions on top of everything ──
+      for (const p of r1) if (!p.isBehind()) p.draw(1.0, '#7aab80');
+      for (const p of r2) if (!p.isBehind()) p.draw(1.0, '#c8eacb');
+
+      // Scanline
+      ctx.globalAlpha = 0.04;
+      ctx.fillStyle = '#7aab80';
+      ctx.fillRect(0, scanY, W, 2);
+      scanY = (scanY + 1.2) % H;
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>
