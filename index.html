@@ -578,7 +578,7 @@
       ctx.clip();
       ctx.globalAlpha = 1;
       if (logo.complete && logo.naturalWidth > 0) {
-        const s = LOGO_R * 2.2; // draw bigger than clip so it fills edge to edge
+        const s = LOGO_R * 2.6; // scale up to crop grey padding
         ctx.drawImage(logo, cx - s/2, cy - s/2, s, s);
       } else {
         ctx.fillStyle = '#0d110b';
