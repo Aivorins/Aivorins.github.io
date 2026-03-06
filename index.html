@@ -75,6 +75,13 @@
       transition: color 0.2s, border-color 0.2s;
     }
     .nav-link:hover { color: var(--ink-soft); border-color: var(--border); }
+    .nav-tab {
+      border-color: rgba(122,171,128,0.35) !important;
+      background: rgba(122,171,128,0.1) !important;
+      color: var(--sage) !important;
+    }
+    .nav-tab:hover { background: rgba(122,171,128,0.2) !important; }
+    .nav-tab-soon { opacity: 0.38; pointer-events: none; cursor: default; }
     .nav-link.cta {
       color: var(--sage);
       border-color: rgba(122,171,128,0.25);
@@ -262,6 +269,7 @@
       padding: 120px clamp(16px, 8vw, 120px);
       display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
       gap: 80px;
       align-items: center;
       border-top: 1px solid var(--border);
@@ -389,6 +397,48 @@
     .footer-brand em { color: var(--sage); font-style: italic; }
     .footer-note { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--ink-muted); }
 
+    /* ── Philosophy section ── */
+    .philosophy {
+      border-top: 1px solid var(--border);
+      padding: 100px clamp(16px, 5vw, 56px);
+    }
+    .phil-inner { max-width: 1000px; margin: 0 auto; }
+    .phil-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      gap: 2px;
+    }
+    .phil-block {
+      padding: 40px 36px;
+      border: 1px solid var(--border);
+      margin: -1px 0 0 -1px;
+      transition: background 0.2s;
+    }
+    .phil-block:hover { background: var(--surface); }
+    .phil-num {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--sage);
+      margin-bottom: 16px;
+    }
+    .phil-title {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .phil-body {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      line-height: 1.85;
+    }
+    @media (max-width: 680px) {
+      .phil-grid { grid-template-columns: 1fr; }
+    }
+
     @keyframes up {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -418,11 +468,9 @@
     <a class="nav-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:28px;height:28px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span>Ai</span>vorin</a>
     <div class="nav-links">
       <a href="#about" class="nav-link">About</a>
-      <a href="extensions.html" class="nav-link">Extensions</a>
-      <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="nav-link">Support</a>
-      <a href="extensions.html" class="nav-link cta">
-        Browse Tools →
-      </a>
+      <a href="extensions.html" class="nav-link nav-tab">Extensions</a>
+      <a href="#" class="nav-link nav-tab nav-tab-soon">Apps — soon</a>
+      <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="nav-link nav-tab">Support Aivorin</a>
     </div>
   </nav>
 
@@ -441,15 +489,14 @@
       <div class="holo-status">AIVORIN.SYS <span class="blink">█</span></div>
     </div>
 
-    <p class="hero-tag">FREE · PRIVATE · FOCUSED</p>
-    <h1 class="hero-title">We build the tools.<br/><em>You build the rest.</em></h1>
-    <p class="hero-sub">Browser extensions crafted to do exactly one thing well. No accounts, no tracking, no noise.</p>
+    <p class="hero-tag">INDEPENDENT DIGITAL STUDIO</p>
+    <h1 class="hero-title">Simple tools.<br/><em>Serious focus.</em></h1>
+    <p class="hero-sub">Software that does one thing and gets out of the way. No noise, no tracking, no fluff.</p>
     <div class="hero-cta">
-      <a href="extensions.html" class="btn-primary">
-        Browse Extensions
+      <a href="#about" class="btn-primary">
+        Our philosophy
         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <a href="#about" class="btn-ghost">Who we are</a>
     </div>
   </section>
 
@@ -457,60 +504,66 @@
   <section class="about" id="about">
     <div class="reveal">
       <p class="about-label">ABOUT AIVORIN</p>
-      <h2 class="about-title">Built for people who<br/><em>value their attention.</em></h2>
+      <h2 class="about-title">An independent studio.<br/><em>A clear purpose.</em></h2>
       <div class="about-body">
-        <p>Aivorin is an independent studio building free browser tools. No venture funding, no growth metrics, no dark patterns.</p>
-        <p>Every extension does one thing and does it well. We believe software should be honest about what it does and invisible when it doesn't need to be.</p>
-        <p>All tools are free, require no account, and collect zero data. That's the whole deal.</p>
+        <p>Aivorin is an independent studio creating focused digital tools across different domains. No venture funding, no growth metrics, no dark patterns.</p>
+        <p>Every product is built to do one thing — and do it well. Software should be honest about what it does and invisible when it doesn't need attention.</p>
+        <p>Simple tools. No unnecessary tracking. No dark patterns. Just software that works.</p>
       </div>
     </div>
     <div class="about-values reveal" style="transition-delay:0.15s">
       <div class="value-item">
         <div class="value-tag">PRINCIPLE 01</div>
-        <div class="value-title">Zero data. Zero noise.</div>
-        <div class="value-body">Nothing is collected, stored, or shared. Your browser stays yours.</div>
+        <div class="value-title">Honest software.</div>
+        <div class="value-body">Nothing hidden. Every product does exactly what it says — and never quietly more.</div>
       </div>
       <div class="value-item">
         <div class="value-tag">PRINCIPLE 02</div>
-        <div class="value-title">Free. Always.</div>
-        <div class="value-body">Every tool is free. Support is appreciated but never required to access anything.</div>
+        <div class="value-title">Independent. Always.</div>
+        <div class="value-body">No investors, no boardroom, no agenda. Just a studio that builds what it believes in.</div>
       </div>
       <div class="value-item">
         <div class="value-tag">PRINCIPLE 03</div>
-        <div class="value-title">One tool, one job.</div>
-        <div class="value-body">No feature bloat. Each extension solves a single problem and gets out of the way.</div>
+        <div class="value-title">One product, one purpose.</div>
+        <div class="value-body">No feature bloat. Each product solves a single problem and then gets out of the way.</div>
       </div>
     </div>
   </section>
 
-  <!-- Extensions preview -->
-  <section class="ext-preview" id="extensions">
-    <p class="section-label reveal">EXTENSIONS</p>
-    <h2 class="section-title reveal" style="transition-delay:0.1s">The tools <em>so far.</em></h2>
-    <p class="section-sub reveal" style="transition-delay:0.15s">Two extensions live. More in development.</p>
-    <div class="ext-cards">
-      <a href="acb.html" class="ext-card reveal" style="transition-delay:0.1s">
-        <div class="ext-card-icon">
-          <img src="img1.png" alt="ACB" style="width:28px;height:28px;object-fit:contain;border-radius:4px;" />
+  <!-- Philosophy deep-dive -->
+  <section class="philosophy reveal" id="philosophy">
+    <div class="phil-inner">
+      <p class="about-label" style="text-align:center;margin-bottom:48px;">THE WAY WE THINK</p>
+      <div class="phil-grid">
+        <div class="phil-block reveal">
+          <div class="phil-num">01</div>
+          <h3 class="phil-title">We don't build empires.</h3>
+          <p class="phil-body">Aivorin isn't chasing scale. There's no roadmap to become a platform, no plans for enterprise tiers, no ambition to own your workflow. Each product exists on its own terms — because it solves a real problem, not because it feeds a growth chart.</p>
         </div>
-        <div>
-          <div class="ext-card-name">ACB</div>
-          <div class="ext-card-desc">Adult content blocker. 30,000+ domain rules, live text scanning, password protected.</div>
+        <div class="phil-block reveal" style="transition-delay:0.1s">
+          <div class="phil-num">02</div>
+          <h3 class="phil-title">Software should disappear.</h3>
+          <p class="phil-body">The best tool is one you stop thinking about. It works, it stays out of the way, and it never asks for more than it needs. Aivorin products are designed to be used, not noticed. When they do their job, you shouldn't have to think about them at all.</p>
         </div>
-        <div class="ext-card-badge">FREE · OPERA</div>
-      </a>
-      <a href="nonoise.html" class="ext-card reveal" style="transition-delay:0.2s">
-        <div class="ext-card-icon">
-          <img src="img2.png" alt="NoNoise" style="width:28px;height:28px;object-fit:contain;border-radius:4px;" />
+        <div class="phil-block reveal" style="transition-delay:0.2s;grid-column:1/-1;">
+          <div class="phil-num">03</div>
+          <h3 class="phil-title">Privacy isn't a feature.</h3>
+          <p class="phil-body">Collecting data, building profiles, and monetising attention is the default in most software. At Aivorin it's off the table. Some products may require an account where the feature genuinely needs it — but that data stays with you, never sold, never leveraged.</p>
         </div>
-        <div>
-          <div class="ext-card-name">NoNoise</div>
-          <div class="ext-card-desc">Social media blocker. Auto-closes distracting tabs. Password protected, fully customisable.</div>
-        </div>
-        <div class="ext-card-badge">FREE · OPERA</div>
-      </a>
+
+      </div>
     </div>
-    <a href="extensions.html" class="btn-ghost reveal" style="transition-delay:0.25s">View all extensions →</a>
+  </section>
+
+  <!-- Work — minimal teaser, not product-focused -->
+  <section class="ext-preview" id="work">
+    <p class="section-label reveal">WHAT WE BUILD</p>
+    <h2 class="section-title reveal" style="transition-delay:0.1s">Focused tools.<br/><em>Different domains.</em></h2>
+    <p class="section-sub reveal" style="transition-delay:0.15s">Browser extensions. Apps. Whatever the problem calls for.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+      <a href="extensions.html" class="btn-ghost reveal" style="transition-delay:0.15s">Extensions →</a>
+      <a href="#" class="btn-ghost reveal" style="transition-delay:0.2s;opacity:0.45;pointer-events:none;">Apps — soon</a>
+    </div>
   </section>
 
   <!-- Support -->
