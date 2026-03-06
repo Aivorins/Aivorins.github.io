@@ -60,8 +60,8 @@
       font-size: 1.3rem;
       color: var(--ink);
       text-decoration: none;
-      display: flex; align-items: center; gap: 10px;
       letter-spacing: -0.01em;
+      white-space: nowrap;
     }
     .nav-brand span { color: var(--sage); font-style: italic; }
     .nav-links {
@@ -343,7 +343,7 @@
       flex-wrap: wrap; gap: 16px;
     }
     .footer-brand { font-family: var(--serif); font-size: 1rem; color: var(--ink-soft); display: flex; align-items: center; gap: 8px; }
-    .footer-brand span { color: var(--sage); font-style: italic; }
+    .footer-brand em { color: var(--sage); font-style: italic; }
     .footer-note { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--ink-muted); }
 
     @keyframes up {
@@ -372,10 +372,7 @@
 
   <!-- Nav -->
   <nav id="nav">
-    <a class="nav-brand" href="index.html">
-      <img src="aivorinlogo.png" alt="Aivorin" style="width:35px;height:35px;border-radius:50%;" />
-      <span>Ai</span>vorin
-    </a>
+    <a class="nav-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:28px;height:28px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span>Ai</span>vorin</a>
     <div class="nav-links">
       <a href="#about" class="nav-link">About</a>
       <a href="extensions.html" class="nav-link">Extensions</a>
@@ -483,7 +480,7 @@
   <footer>
     <span class="footer-brand">
       <img src="aivorinlogo.png" alt="Aivorin" style="width:22px;height:22px;border-radius:50%;opacity:0.7;" />
-      <span>Ai</span>vorin
+      <em>Ai</em>vorin
     </span>
     <span class="footer-note">FREE · PRIVATE · OPEN</span>
   </footer>
@@ -502,98 +499,77 @@
     }, { threshold: 0.12 });
     revealEls.forEach(el => observer.observe(el));
 
-    // ── Two particle rings around aivorinlogo.png ──
+    // ── Three orbiting rings — performance optimized ──
     const canvas = document.getElementById('holoCanvas');
     const ctx    = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
     const cx = W / 2, cy = H / 2;
-    const LOGO_R = 38; // logo clip radius
+    const LOGO_R = 52;
 
-    // ── Ring paths ──
-    // Ring 1: flat circle tilted in perspective (rx big, ry small)
-    // Ring 2: another circle at different tilt/speed
-    // Both go FULLY around — we draw them in two passes:
-    //   pass A (behind logo): clip to OUTSIDE the logo circle
-    //   pass B (in front):    drawn normally on top of logo
-    // This way every particle is always visible — just dimmed when "behind"
+    // Inline rotation — no object allocation per frame
+    function projectParticle(angle, axisY, axisX, ringR) {
+      const cosA = Math.cos(angle), sinA = Math.sin(angle);
+      let px = cosA * ringR, py = sinA * ringR, pz = 0;
 
-    function makeEllipsePts(n, rx, ry, tiltRad) {
-      const cosT = Math.cos(tiltRad), sinT = Math.sin(tiltRad);
-      const pts = [];
-      for (let i = 0; i < n; i++) {
-        const a = (2 * Math.PI * i) / n;
-        const ex = rx * Math.cos(a), ey = ry * Math.sin(a);
-        pts.push({
-          x: cx + ex * cosT - ey * sinT,
-          y: cy + ex * sinT + ey * cosT,
-          // sin(a) > 0 = bottom arc = visually "behind" the logo
-          behind: Math.sin(a) > 0
-        });
-      }
-      return pts;
+      // rotY
+      const cosY = Math.cos(axisY), sinY = Math.sin(axisY);
+      const px2 =  px * cosY + pz * sinY;
+      const pz2 = -px * sinY + pz * cosY;
+      px = px2; pz = pz2;
+
+      // rotX
+      const cosX = Math.cos(axisX), sinX = Math.sin(axisX);
+      const py3 = py * cosX - pz * sinX;
+      const pz3 = py * sinX + pz * cosX;
+      py = py3; pz = pz3;
+
+      return { x: cx + px, y: cy + py, behind: pz > 0 };
     }
 
-    // Ring 1: wide flat orbit, tilted ~20deg
-    const r1Pts = makeEllipsePts(300, 78, 22, -0.35);
-    // Ring 2: upright-ish orbit tilted ~60deg the other way, different radius
-    const r2Pts = makeEllipsePts(300, 72, 30,  0.55);
+    // 3 rings — fewer particles each = same visual density, less work
+    const rings = [
+      {
+        orbitAngle: 0,          orbitSpeed:  0.018,
+        axisY: 0,               axisYSpeed:  0.006,
+        axisX: 0,               axisXSpeed:  0.003,
+        color: '#7aab80',       dimColor: 'rgba(100,160,108,0.32)',
+        count: 80,              pSize: 1.4,   radius: 72,
+      },
+      {
+        orbitAngle: Math.PI,    orbitSpeed: -0.024,
+        axisY: Math.PI / 2,     axisYSpeed:  0.008,
+        axisX: Math.PI / 4,     axisXSpeed: -0.004,
+        color: '#c8eacb',       dimColor: 'rgba(160,210,165,0.28)',
+        count: 70,              pSize: 1.3,   radius: 84,
+      },
+      {
+        orbitAngle: Math.PI/2,  orbitSpeed:  0.030,
+        axisY: Math.PI * 0.75,  axisYSpeed: -0.005,
+        axisX: Math.PI * 0.6,   axisXSpeed:  0.007,
+        color: '#a8d4ac',       dimColor: 'rgba(130,185,135,0.25)',
+        count: 60,              pSize: 1.2,   radius: 96,
+      },
+    ];
 
-    class Particle {
-      constructor(pts, speed, offset, baseSize) {
-        this.pts  = pts;
-        this.speed = speed;
-        this.t    = offset;
-        this.x    = pts[0].x;
-        this.y    = pts[0].y;
-        this.ox   = 0; this.oy = 0;
-        this.size = baseSize + Math.random() * 0.8;
-        this.alpha = Math.random() * 0.3 + 0.7;
-      }
-      update() {
-        this.t = (this.t + this.speed) % 1;
-        const n  = this.pts.length;
-        const fi = this.t * n;
-        const i0 = Math.floor(fi) % n;
-        const i1 = (i0 + 1) % n;
-        const f  = fi - Math.floor(fi);
-        const p0 = this.pts[i0], p1 = this.pts[i1];
-        this.x = p0.x + (p1.x - p0.x) * f + this.ox;
-        this.y = p0.y + (p1.y - p0.y) * f + this.oy;
-        this.ox += (Math.random() - 0.5) * 0.15;
-        this.oy += (Math.random() - 0.5) * 0.15;
-        this.ox *= 0.78; this.oy *= 0.78;
-        this.alpha += (Math.random() - 0.5) * 0.04;
-        this.alpha = Math.max(0.25, Math.min(1.0, this.alpha));
-      }
-      isBehind() {
-        const i = Math.floor(this.t * this.pts.length) % this.pts.length;
-        return this.pts[i].behind;
-      }
-      draw(alpha, color) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.globalAlpha = this.alpha * alpha;
-        ctx.fill();
-      }
+    // Pre-allocate typed arrays for x/y/behind — no GC pressure
+    const rData = rings.map(r => ({
+      offsets: new Float32Array(r.count).map((_, i) => (2 * Math.PI * i) / r.count),
+      alphas:  new Float32Array(r.count).map(() => 0.6 + Math.random() * 0.4),
+      sizes:   new Float32Array(r.count).map(() => r.pSize + Math.random() * 0.8),
+      px:      new Float32Array(r.count),
+      py:      new Float32Array(r.count),
+      behind:  new Uint8Array(r.count),
+    }));
+
+    function clipOutsideLogo() {
+      ctx.beginPath();
+      ctx.rect(0, 0, W, H);
+      ctx.arc(cx, cy, LOGO_R, 0, Math.PI * 2, true);
+      ctx.clip('evenodd');
     }
-
-    const r1 = Array.from({length: 140}, (_, i) =>
-      new Particle(r1Pts, 0.0006 + Math.random() * 0.0003, i / 140, 1.2));
-    const r2 = Array.from({length: 140}, (_, i) =>
-      new Particle(r2Pts, 0.001  + Math.random() * 0.0004, i / 140, 1.2));
 
     const logo = new Image();
     logo.src = 'aivorinlogo.png';
-    const LOGO_SIZE = LOGO_R * 2;
-
-    function clipOutsideLogo() {
-      // Clip region = everything EXCEPT the logo circle
-      ctx.beginPath();
-      ctx.rect(0, 0, W, H);
-      ctx.arc(cx, cy, LOGO_R, 0, Math.PI * 2, true); // true = counterclockwise = hole
-      ctx.clip('evenodd');
-    }
 
     function drawLogo() {
       ctx.save();
@@ -602,63 +578,110 @@
       ctx.clip();
       ctx.globalAlpha = 1;
       if (logo.complete && logo.naturalWidth > 0) {
-        ctx.drawImage(logo, cx - LOGO_R, cy - LOGO_R, LOGO_SIZE, LOGO_SIZE);
+        ctx.drawImage(logo, cx - LOGO_R, cy - LOGO_R, LOGO_R * 2, LOGO_R * 2);
       } else {
         ctx.fillStyle = '#0d110b';
-        ctx.fillRect(cx - LOGO_R, cy - LOGO_R, LOGO_SIZE, LOGO_SIZE);
-        ctx.strokeStyle = 'rgba(255,255,255,0.88)';
-        ctx.lineWidth = 1.6;
-        ctx.beginPath(); ctx.arc(cx, cy, 14, 0, Math.PI * 2); ctx.stroke();
-        ctx.beginPath(); ctx.ellipse(cx, cy, 23, 7, -0.45, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillRect(cx - LOGO_R, cy - LOGO_R, LOGO_R * 2, LOGO_R * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath(); ctx.arc(cx, cy, 20, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(cx, cy, 32, 10, -0.45, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx - 22, cy - 4, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff'; ctx.fill();
       }
       ctx.restore();
     }
 
     let scanY = 0;
+    let lastTime = 0;
 
-    function draw() {
+    function draw(ts) {
+      // Cap delta so tab-hidden catch-up doesn't cause a jump
+      const dt = Math.min((ts - lastTime) / 16.67, 2.5);
+      lastTime = ts;
+
       ctx.clearRect(0, 0, W, H);
-
-      // Background
       ctx.globalAlpha = 1;
       ctx.fillStyle = '#0c0f0a';
       ctx.fillRect(0, 0, W, H);
 
       // Glow
-      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 95);
-      grd.addColorStop(0, 'rgba(122,171,128,0.1)');
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 92);
+      grd.addColorStop(0, 'rgba(122,171,128,0.09)');
       grd.addColorStop(1, 'transparent');
       ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
 
-      // Update all particles
-      for (const p of r1) p.update();
-      for (const p of r2) p.update();
+      // Advance ring angles (dt-scaled so speed is frame-rate independent)
+      for (const ring of rings) {
+        ring.orbitAngle += ring.orbitSpeed * dt;
+        ring.axisY      += ring.axisYSpeed * dt;
+        ring.axisX      += ring.axisXSpeed * dt;
+      }
 
-      // ── PASS 1: draw "behind" portions clipped outside logo ──
+      // Project all particles — pure math, no allocations
+      for (let ri = 0; ri < rings.length; ri++) {
+        const ring = rings[ri];
+        const d    = rData[ri];
+        const n    = ring.count;
+        for (let i = 0; i < n; i++) {
+          const angle = ring.orbitAngle + d.offsets[i];
+          const pt    = projectParticle(angle, ring.axisY, ring.axisX, ring.radius);
+          d.px[i]     = pt.x;
+          d.py[i]     = pt.y;
+          d.behind[i] = pt.behind ? 1 : 0;
+          // Smooth alpha drift
+          d.alphas[i] += (Math.random() - 0.5) * 0.025;
+          if (d.alphas[i] < 0.25) d.alphas[i] = 0.25;
+          if (d.alphas[i] > 1.0)  d.alphas[i] = 1.0;
+        }
+      }
+
+      // PASS 1 — behind arcs, clipped outside logo
       ctx.save();
       clipOutsideLogo();
-      for (const p of r1) if ( p.isBehind()) p.draw(0.45, '#7aab80');
-      for (const p of r2) if ( p.isBehind()) p.draw(0.45, '#9acca0');
+      for (let ri = 0; ri < rings.length; ri++) {
+        const ring = rings[ri];
+        const d    = rData[ri];
+        ctx.fillStyle = ring.dimColor;
+        for (let i = 0; i < ring.count; i++) {
+          if (!d.behind[i]) continue;
+          ctx.globalAlpha = d.alphas[i] * 0.6;
+          ctx.beginPath();
+          ctx.arc(d.px[i], d.py[i], d.sizes[i], 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
       ctx.restore();
 
-      // ── Draw logo ──
+      // Logo
+      ctx.globalAlpha = 1;
       drawLogo();
 
-      // ── PASS 2: draw "front" portions on top of everything ──
-      for (const p of r1) if (!p.isBehind()) p.draw(1.0, '#7aab80');
-      for (const p of r2) if (!p.isBehind()) p.draw(1.0, '#c8eacb');
+      // PASS 2 — front arcs on top of logo
+      for (let ri = 0; ri < rings.length; ri++) {
+        const ring = rings[ri];
+        const d    = rData[ri];
+        ctx.fillStyle = ring.color;
+        for (let i = 0; i < ring.count; i++) {
+          if (d.behind[i]) continue;
+          ctx.globalAlpha = d.alphas[i];
+          ctx.beginPath();
+          ctx.arc(d.px[i], d.py[i], d.sizes[i], 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
 
       // Scanline
-      ctx.globalAlpha = 0.04;
+      ctx.globalAlpha = 0.03;
       ctx.fillStyle = '#7aab80';
       ctx.fillRect(0, scanY, W, 2);
-      scanY = (scanY + 1.2) % H;
+      scanY = (scanY + 1.0) % H;
 
       ctx.globalAlpha = 1;
       requestAnimationFrame(draw);
     }
 
-    draw();
+    requestAnimationFrame(draw);
   </script>
 </body>
 </html>
