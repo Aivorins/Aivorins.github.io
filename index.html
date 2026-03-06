@@ -578,8 +578,11 @@
       ctx.clip();
       ctx.globalAlpha = 1;
       if (logo.complete && logo.naturalWidth > 0) {
-        const s = LOGO_R * 2.4; // scale up to crop grey padding
-        ctx.drawImage(logo, cx - s/2, cy - s/2, s, s);
+        const s = LOGO_R * 2.4;
+        const aspect = logo.naturalWidth / logo.naturalHeight;
+        const sw = s * aspect > s ? s : s * aspect;
+        const sh = s * aspect > s ? s / aspect : s;
+        ctx.drawImage(logo, cx - sw/2, cy - sh/2, sw, sh);
       } else {
         ctx.fillStyle = '#0d110b';
         ctx.fillRect(cx - LOGO_R, cy - LOGO_R, LOGO_R * 2, LOGO_R * 2);
