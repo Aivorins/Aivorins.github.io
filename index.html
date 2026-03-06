@@ -578,7 +578,8 @@
       ctx.clip();
       ctx.globalAlpha = 1;
       if (logo.complete && logo.naturalWidth > 0) {
-        ctx.drawImage(logo, cx - LOGO_R, cy - LOGO_R, LOGO_R * 2, LOGO_R * 2);
+        const s = LOGO_R * 2.2; // draw bigger than clip so it fills edge to edge
+        ctx.drawImage(logo, cx - s/2, cy - s/2, s, s);
       } else {
         ctx.fillStyle = '#0d110b';
         ctx.fillRect(cx - LOGO_R, cy - LOGO_R, LOGO_R * 2, LOGO_R * 2);
