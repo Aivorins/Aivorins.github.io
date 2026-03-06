@@ -63,7 +63,7 @@
       letter-spacing: -0.01em;
       white-space: nowrap;
     }
-    .nav-brand span { color: var(--sage); font-style: italic; }
+
     .nav-links {
       display: flex; align-items: center; gap: 6px;
     }
@@ -393,8 +393,8 @@
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 16px;
     }
-    .footer-brand { font-family: var(--serif); font-size: 1rem; color: var(--ink-soft); display: flex; align-items: center; gap: 8px; }
-    .footer-brand em { color: var(--sage); font-style: italic; }
+    .footer-brand { font-family: var(--serif); font-size: 1rem; color: var(--ink-soft); }
+
     .footer-note { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--ink-muted); }
 
     /* ── Philosophy section ── */
@@ -465,7 +465,7 @@
 
   <!-- Nav -->
   <nav id="nav">
-    <a class="nav-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:28px;height:28px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span>Ai</span>vorin</a>
+    <a class="nav-brand" href="index.html"><img src="aivorinlogo.png" alt="Aivorin" style="width:28px;height:28px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span style="color:var(--sage);font-style:italic;">Ai</span><span style="color:var(--ink);">vorin</span></a>
     <div class="nav-links">
       <a href="#about" class="nav-link">About</a>
       <a href="extensions.html" class="nav-link nav-tab">Extensions</a>
@@ -578,10 +578,7 @@
 
   <!-- Footer -->
   <footer>
-    <span class="footer-brand">
-      <img src="aivorinlogo.png" alt="Aivorin" style="width:22px;height:22px;border-radius:50%;opacity:0.7;" />
-      <em>Ai</em>vorin
-    </span>
+<span class="footer-brand"><img src="aivorinlogo.png" alt="Aivorin" style="width:22px;height:22px;border-radius:50%;opacity:0.7;margin-right:8px;vertical-align:middle;" /><span style="color:var(--sage);font-style:italic;">Ai</span><span style="color:var(--ink);">vorin</span></span>
     <span class="footer-note">FREE · PRIVATE · OPEN</span>
   </footer>
 
