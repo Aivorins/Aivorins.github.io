@@ -117,6 +117,19 @@
       display: block;
       filter: drop-shadow(0 0 18px rgba(122,171,128,0.45));
     }
+    .holo-logo-img {
+      position: absolute;
+      width: 104px; height: 104px;
+      border-radius: 50%;
+      object-fit: cover;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .holo-canvas-wrap {
+      position: relative;
+      display: inline-block;
+    }
 
     /* Corner brackets */
     .holo-frame {
@@ -390,7 +403,10 @@
         <div class="holo-frame-tr"></div>
         <div class="holo-frame-bl"></div>
       </div>
-      <canvas id="holoCanvas" width="280" height="280" aria-hidden="true"></canvas>
+      <div class="holo-canvas-wrap">
+        <canvas id="holoCanvas" width="280" height="280" aria-hidden="true"></canvas>
+        <img src="aivorinlogo.png" class="holo-logo-img" alt="Aivorin" />
+      </div>
       <div class="holo-status">AIVORIN.SYS <span class="blink">█</span></div>
     </div>
 
@@ -579,10 +595,7 @@
       ctx.globalAlpha = 1;
       if (logo.complete && logo.naturalWidth > 0) {
         const s = LOGO_R * 2.4;
-        const aspect = logo.naturalWidth / logo.naturalHeight;
-        const sw = s * aspect > s ? s : s * aspect;
-        const sh = s * aspect > s ? s / aspect : s;
-        ctx.drawImage(logo, cx - sw/2, cy - sh/2, sw, sh);
+        ctx.drawImage(logo, cx - s/2, cy - s/2, s, s);
       } else {
         ctx.fillStyle = '#0d110b';
         ctx.fillRect(cx - LOGO_R, cy - LOGO_R, LOGO_R * 2, LOGO_R * 2);
@@ -657,9 +670,6 @@
       }
       ctx.restore();
 
-      // Logo
-      ctx.globalAlpha = 1;
-      drawLogo();
 
       // PASS 2 — front arcs on top of logo
       for (let ri = 0; ri < rings.length; ri++) {
