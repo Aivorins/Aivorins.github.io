@@ -118,13 +118,17 @@
       margin-bottom: 52px;
       opacity: 0;
       animation: up 1s 0.1s cubic-bezier(0.22,1,0.36,1) forwards;
+      will-change: transform, opacity;
+      transform: translateZ(0);
     }
 
     #holoCanvas {
       display: block;
       filter: drop-shadow(0 0 18px rgba(122,171,128,0.45));
+      will-change: transform, opacity;
     }
     .holo-logo-img {
+      will-change: filter, opacity;
       position: absolute;
       width: 104px; height: 104px;
       border-radius: 50%;
@@ -161,11 +165,13 @@
     }
     #holoBack {
       display: block;
+      will-change: contents;
     }
     #holoFront {
       position: absolute;
       top: 0; left: 0;
       pointer-events: none;
+      will-change: contents;
     }
 
     /* Corner brackets */
@@ -634,6 +640,7 @@
         axisX: 0,               axisXSpeed:  0.003,
         color: '#7aab80',       dimColor: 'rgba(100,160,108,0.32)',
         count: 80,              pSize: 1.4,   radius: 88,
+        pulseSpeed: 0.012,      pulseOffset: 0,
       },
       {
         orbitAngle: Math.PI,    orbitSpeed: -0.024,
@@ -641,6 +648,7 @@
         axisX: Math.PI / 4,     axisXSpeed: -0.004,
         color: '#c8eacb',       dimColor: 'rgba(160,210,165,0.28)',
         count: 70,              pSize: 1.3,   radius: 102,
+        pulseSpeed: 0.008,      pulseOffset: 2.1,
       },
       {
         orbitAngle: Math.PI/2,  orbitSpeed:  0.030,
@@ -648,6 +656,7 @@
         axisX: Math.PI * 0.6,   axisXSpeed:  0.007,
         color: '#a8d4ac',       dimColor: 'rgba(130,185,135,0.25)',
         count: 60,              pSize: 1.2,   radius: 116,
+        pulseSpeed: 0.015,      pulseOffset: 4.4,
       },
     ];
 
@@ -715,15 +724,19 @@
       for (let ri = 0; ri < rings.length; ri++) {
         const ring = rings[ri];
         const d    = rData[ri];
+        // Each ring pulses at its own speed — oscillates overall brightness
+        ring.pulseOffset += ring.pulseSpeed * dt;
+        const pulse = 0.75 + 0.25 * Math.sin(ring.pulseOffset); // 0.5 → 1.0
         for (let i = 0; i < ring.count; i++) {
           const angle = ring.orbitAngle + d.offsets[i];
           const pt    = projectParticle(angle, ring.axisY, ring.axisX, ring.radius);
           d.px[i]     = pt.x;
           d.py[i]     = pt.y;
           d.behind[i] = pt.behind ? 1 : 0;
-          d.alphas[i] += (Math.random() - 0.5) * 0.025;
+          d.alphas[i] += (Math.random() - 0.5) * 0.02;
           if (d.alphas[i] < 0.25) d.alphas[i] = 0.25;
           if (d.alphas[i] > 1.0)  d.alphas[i] = 1.0;
+          d.alphas[i] *= pulse; // apply ring's own pulse rhythm
         }
       }
 
@@ -753,6 +766,46 @@
           ctxF.arc(d.px[i], d.py[i], d.sizes[i], 0, Math.PI * 2);
           ctxF.fill();
         }
+      }
+
+      // ── Travelling bright dot on each ring ──
+      for (let ri = 0; ri < rings.length; ri++) {
+        const ring = rings[ri];
+        // Dot position: single angle that advances independently
+        if (ring.dotAngle === undefined) ring.dotAngle = ri * Math.PI * 0.66;
+        ring.dotAngle += ring.orbitSpeed * 1.6 * dt; // faster than particles
+
+        const pt = projectParticle(ring.dotAngle, ring.axisY, ring.axisX, ring.radius);
+
+        // Trail: 8 points behind the dot
+        for (let t = 1; t <= 8; t++) {
+          const trailAngle = ring.dotAngle - (ring.orbitSpeed * 1.6 * dt * t * 3);
+          const tp = projectParticle(trailAngle, ring.axisY, ring.axisX, ring.radius);
+          const trailCtx = tp.behind ? ctxB : ctxF;
+          trailCtx.globalAlpha = (1 - t / 9) * 0.5;
+          trailCtx.fillStyle = '#ffffff';
+          trailCtx.beginPath();
+          trailCtx.arc(tp.x, tp.y, 1.5, 0, Math.PI * 2);
+          trailCtx.fill();
+        }
+
+        // Main dot — bright white
+        const dotCtx = pt.behind ? ctxB : ctxF;
+        const glow = dotCtx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 6);
+        glow.addColorStop(0, 'rgba(255,255,255,0.95)');
+        glow.addColorStop(1, 'rgba(255,255,255,0)');
+        dotCtx.globalAlpha = pt.behind ? 0.4 : 1.0;
+        dotCtx.fillStyle = glow;
+        dotCtx.beginPath();
+        dotCtx.arc(pt.x, pt.y, 6, 0, Math.PI * 2);
+        dotCtx.fill();
+
+        // Hard core
+        dotCtx.globalAlpha = pt.behind ? 0.3 : 1.0;
+        dotCtx.fillStyle = '#ffffff';
+        dotCtx.beginPath();
+        dotCtx.arc(pt.x, pt.y, 2, 0, Math.PI * 2);
+        dotCtx.fill();
       }
 
       // Scanline on front
