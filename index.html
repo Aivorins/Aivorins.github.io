@@ -107,16 +107,114 @@
     }
 
 
+    /* ── Uiverse layered cube centerpiece ── */
+    .hero {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      text-align: right;
+      padding: 120px clamp(24px, 7vw, 110px) 80px;
+      perspective: 1200px;
+    }
+    .cube-scene {
+      position: absolute;
+      left: clamp(24px, 5vw, 76px);
+      top: 50%;
+      width: 360px;
+      height: 300px;
+      pointer-events: auto;
+      z-index: 0;
+      transform: translateY(-50%) skewY(-20deg);
+      transform-origin: center center;
+      transform-style: preserve-3d;
+      animation: none;
+      transition: transform 180ms ease-out;
+      will-change: transform;
+      filter: drop-shadow(0 22px 24px rgba(0,0,0,.28));
+    }
+    .cube-scene .cube {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      transform-style: preserve-3d;
+    }
+    .cube-scene .cube:nth-child(2) {
+      z-index: 1;
+      translate: -60px -60px;
+    }
+    .cube-scene .cube:nth-child(3) {
+      z-index: 3;
+      translate: 60px 60px;
+    }
+    .cube-scene .cube > div {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      translate: calc(-70px * var(--x)) calc(-60px * var(--y));
+    }
+    .cube-scene span {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      flex: 0 0 50px;
+      background: #c5c9cf;
+      z-index: calc(1 * var(--i));
+      transition: background 0.18s;
+    }
+    .cube-scene span::before,
+    .cube-scene span::after {
+      content: "";
+      position: absolute;
+      transition: background 0.18s;
+    }
+    .cube-scene span::before {
+      left: -40px;
+      width: 40px;
+      height: 100%;
+      background: #aeb4bd;
+      transform-origin: right;
+      transform: skewY(45deg);
+    }
+    .cube-scene span::after {
+      top: -40px;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: #d8dce2;
+      transform-origin: bottom;
+      transform: skewX(45deg);
+    }
+    .cube-scene span:hover {
+      transition: background 0s;
+      background: #252a30;
+    }
+    .cube-scene span:hover::before,
+    .cube-scene span:hover::after {
+      transition: background 0s;
+      background: #252a30;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cube-scene { animation: none; transition: none; }
+      .cube-scene span,
+      .cube-scene span::before,
+      .cube-scene span::after { transition: none; }
+    }
     .hero-content {
       position: relative;
       z-index: 1;
-      width: min(100%, 760px);
-      margin: 0 auto;
+      width: min(48%, 570px);
+      margin-left: auto;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
+      align-items: flex-end;
     }
+    .hero-title { max-width: none; }
+    .hero-sub { margin-left: auto; }
+    .hero-cta { justify-content: flex-end; }
 
     /* ── Hero text ── */
     .hero-tag {
@@ -147,13 +245,6 @@
       margin-bottom: 40px;
       opacity: 0;
       animation: up 0.9s 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
-    }
-    .hero-description {
-      max-width: 650px;
-      margin: -14px auto 34px;
-      text-align: center;
-      opacity: 0;
-      animation: up 0.9s 0.58s cubic-bezier(0.22,1,0.36,1) forwards;
     }
     .hero-cta {
       display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
@@ -364,23 +455,148 @@
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* Reposition the fixed-size composition as the hero's text column changes. */
+    @media (min-width: 861px) and (max-width: 1100px) {
+      .cube-scene { left: 12px; }
+      .hero { padding-left: 24px; padding-right: 32px; }
+      .hero-content { width: 44%; }
+    }
+
+    @media (min-width: 561px) and (max-width: 860px) {
+      .hero { padding: 110px 24px 64px; }
+      .cube-scene {
+        left: -160px;
+        top: 47%;
+        opacity: .82;
+      }
+      .hero-content { width: 54%; }
+      .hero-title { font-size: clamp(2.2rem, 6vw, 3.8rem); }
+      .hero-sub { max-width: 340px; }
+    }
+
     @media (max-width: 860px) {
       .about { grid-template-columns: 1fr; gap: 48px; padding: 80px clamp(16px,5vw,40px); }
     }
     @media (max-width: 560px) {
       .nav-links .nav-link:not(.cta) { display: none; }
-      .hero { padding: 110px 18px 64px; }
+      .hero { padding: 100px 16px 60px; }
       .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
-      .hero-content { width: 100%; }
+      .hero { min-height: 100svh; flex-direction: column; justify-content: center; text-align: center; padding: 190px 18px 56px; }
+      .cube-scene {
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%) skewY(-20deg);
+        transform-origin: top center;
+        opacity: .42;
+      }
+      .hero-content { width: 100%; margin: 0; align-items: center; }
+      .hero-title { max-width: 100%; }
       .hero-sub { margin-left: auto; margin-right: auto; }
-      .hero-description { max-width: 100%; }
       .hero-cta { justify-content: center; }
       .hologram { font-size: 5px; }
       .ext-cards { flex-direction: column; align-items: center; }
       .ext-card { max-width: 100%; }
     }
+
     @media (max-width: 380px) {
+      .hero { padding-top: 166px; }
+      .cube-scene {
+        top: 0;
+        transform: translateX(-50%) skewY(-20deg) scale(.88);
+      }
       .hero-title { font-size: clamp(1.9rem, 10vw, 2.5rem); }
+    }
+
+    /* Responsive hero composition: reserve real space for the cube artwork. */
+    @media (max-width: 560px) and (orientation: portrait) {
+      .hero {
+        min-height: 100svh;
+        height: auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 28px;
+        padding: 104px 18px 64px;
+        overflow: hidden;
+      }
+      .cube-scene {
+        position: relative;
+        inset: auto;
+        flex: 0 0 300px;
+        width: 360px;
+        max-width: none;
+        height: 300px;
+        margin: 0 auto 150px;
+        left: auto;
+        top: auto;
+        opacity: 1;
+        transform: translateX(0) skewY(-20deg);
+        transform-origin: center center;
+      }
+      .hero-content {
+        width: 100%;
+        max-width: 520px;
+        flex: 0 0 auto;
+        margin: 0;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-title { max-width: 100%; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-cta { justify-content: center; }
+    }
+
+    /* Landscape tablets and phones: keep the cube inside the left half,
+       with the copy anchored to the right instead of pushing the cube off-screen. */
+    @media (min-width: 561px) and (max-width: 860px) and (max-height: 560px) {
+      .hero {
+        min-height: 100svh;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 76px 24px 32px;
+      }
+      .cube-scene {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        width: 360px;
+        height: 300px;
+        transform: translateY(-50%) skewY(-20deg);
+        opacity: .9;
+      }
+      .hero-content {
+        width: 52%;
+        max-width: 440px;
+        margin-left: auto;
+        align-items: flex-end;
+        text-align: right;
+      }
+      .hero-title { font-size: clamp(2rem, 5vw, 3rem); }
+      .hero-sub { max-width: 300px; }
+    }
+
+    @media (max-width: 560px) and (max-height: 560px) and (orientation: landscape) {
+      .hero {
+        min-height: 100svh;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 72px 18px 24px;
+      }
+      .cube-scene {
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) scale(.78) skewY(-20deg);
+        transform-origin: left center;
+        opacity: .85;
+      }
+      .hero-content { width: 52%; margin-left: auto; align-items: flex-end; }
+      .hero-title { font-size: clamp(1.8rem, 5vw, 2.6rem); }
+      .hero-sub { font-size: .84rem; max-width: 260px; margin-bottom: 22px; }
+      .hero-cta { justify-content: flex-end; }
     }
   </style>
 </head>
@@ -399,14 +615,25 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-content">
+<div class="cube-scene" role="presentation" aria-hidden="true">
+      <div class="cube">
+        <div style="--x:-1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+        <div style="--x:0;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+        <div style="--x:1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+      </div>
+      <div class="cube">
+        <div style="--x:-1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+        <div style="--x:0;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+        <div style="--x:1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+      </div>
+      <div class="cube">
+        <div style="--x:-1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+        <div style="--x:0;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+        <div style="--x:1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
+      </div>
+    </div>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
       <p class="hero-sub">We build the tools, you build the rest.</p>
-      <div class="about-body hero-description">
-        <p>Aivorin is an independent studio creating focused digital tools across different domains. No venture funding, no growth metrics, no dark patterns.</p>
-        <p>Every product is built to do one thing — and do it well. Software should be honest about what it does and invisible when it doesn't need attention.</p>
-        <p>Simple tools. No unnecessary tracking. No dark patterns. Just software that works.</p>
-      </div>
       <div class="hero-cta">
       <a href="#about" class="btn-primary">
         Our philosophy
@@ -421,6 +648,11 @@
     <div class="reveal">
       <p class="about-label">ABOUT AIVORIN</p>
       <h2 class="about-title">An independent studio.<br/><em>A clear purpose.</em></h2>
+      <div class="about-body">
+        <p>Aivorin is an independent studio creating focused digital tools across different domains. No venture funding, no growth metrics, no dark patterns.</p>
+        <p>Every product is built to do one thing — and do it well. Software should be honest about what it does and invisible when it doesn't need attention.</p>
+        <p>Simple tools. No unnecessary tracking. No dark patterns. Just software that works.</p>
+      </div>
     </div>
     <div class="about-values reveal" style="transition-delay:0.15s">
       <div class="value-item">
