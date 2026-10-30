@@ -107,7 +107,7 @@
     }
 
 
-    /* ── Modular network centerpiece ── */
+    /* ── Pulled-apart modular cube centerpiece ── */
     .hero {
       flex-direction: row;
       justify-content: space-between;
@@ -446,92 +446,54 @@
 
   <!-- Hero -->
   <section class="hero">
-    <svg class="block-composition" viewBox="0 0 760 600" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<svg class="block-composition" viewBox="0 0 760 600" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="beamTop" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#f3f5f7"/><stop offset="1" stop-color="#b8c2cc"/>
-        </linearGradient>
-        <linearGradient id="beamSide" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#c1cad4"/><stop offset="1" stop-color="#778594"/>
-        </linearGradient>
-        <linearGradient id="beamEnd" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#9eabb9"/><stop offset="1" stop-color="#4f5d6c"/>
-        </linearGradient>
-        <linearGradient id="beamAccentTop" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#e0e8e2"/><stop offset="1" stop-color="#a7b9ae"/>
-        </linearGradient>
-        <linearGradient id="beamAccentSide" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#a9b9ae"/><stop offset="1" stop-color="#63786d"/>
-        </linearGradient>
-        <filter id="beamShadow" x="-35%" y="-35%" width="180%" height="190%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="9"/>
-          <feOffset dx="5" dy="15" result="shadow"/>
-          <feComponentTransfer><feFuncA type="linear" slope=".34"/></feComponentTransfer>
-          <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
+        <linearGradient id="tileTop" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4f6f8"/><stop offset="1" stop-color="#aeb9c5"/></linearGradient>
+        <linearGradient id="tileLeft" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b9c4cf"/><stop offset="1" stop-color="#657383"/></linearGradient>
+        <linearGradient id="tileRight" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8795a4"/><stop offset="1" stop-color="#3d4855"/></linearGradient>
+        <linearGradient id="tileAccent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dce7df"/><stop offset="1" stop-color="#81998a"/></linearGradient>
+        <filter id="cubeShadow" x="-40%" y="-40%" width="190%" height="200%"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dx="3" dy="16"/><feComponentTransfer><feFuncA type="linear" slope=".38"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
-
-      <!-- Solid rectangular beams, each built from top, side and end faces. -->
-      <g filter="url(#beamShadow)" stroke="rgba(255,255,255,.36)" stroke-width="1.25" stroke-linejoin="round">
-        <!-- Rear elevated cross-member -->
-        <g>
-          <polygon fill="url(#beamTop)" points="190,178 290,120 318,136 218,194"/>
-          <polygon fill="url(#beamSide)" points="218,194 318,136 318,166 218,224"/>
-          <polygon fill="url(#beamEnd)" points="190,178 218,194 218,224 190,208"/>
-        </g>
-        <!-- Long upper beam running right -->
-        <g>
-          <polygon fill="url(#beamTop)" points="290,120 438,205 410,221 262,136"/>
-          <polygon fill="url(#beamSide)" points="262,136 410,221 410,251 262,166"/>
-          <polygon fill="url(#beamEnd)" points="438,205 410,221 410,251 438,235"/>
-        </g>
-        <!-- Upright beam rising from the central joint -->
-        <g>
-          <polygon fill="url(#beamTop)" points="318,136 346,152 346,310 318,294"/>
-          <polygon fill="url(#beamSide)" points="346,152 374,136 374,294 346,310"/>
-          <polygon fill="url(#beamEnd)" points="318,136 346,120 374,136 346,152"/>
-        </g>
-        <!-- Lower diagonal beam, offset in height -->
-        <g>
-          <polygon fill="url(#beamTop)" points="346,310 474,384 446,400 318,326"/>
-          <polygon fill="url(#beamSide)" points="318,326 446,400 446,430 318,356"/>
-          <polygon fill="url(#beamEnd)" points="474,384 446,400 446,430 474,414"/>
-        </g>
-        <!-- Left descending member -->
-        <g>
-          <polygon fill="url(#beamAccentTop)" points="190,208 318,282 290,298 162,224"/>
-          <polygon fill="url(#beamAccentSide)" points="162,224 290,298 290,328 162,254"/>
-          <polygon fill="#52685d" points="190,208 218,224 218,254 190,238"/>
-        </g>
-        <!-- Right vertical member creates an open, asymmetrical frame -->
-        <g>
-          <polygon fill="url(#beamTop)" points="438,235 466,219 466,377 438,393"/>
-          <polygon fill="url(#beamSide)" points="466,219 494,235 494,393 466,377"/>
-          <polygon fill="url(#beamEnd)" points="438,235 466,219 494,235 466,251"/>
-        </g>
-        <!-- Short crossbar extending beyond the right upright -->
-        <g>
-          <polygon fill="url(#beamTop)" points="466,219 566,161 594,177 494,235"/>
-          <polygon fill="url(#beamSide)" points="494,235 594,177 594,207 494,265"/>
-          <polygon fill="url(#beamEnd)" points="566,161 594,177 594,207 566,191"/>
-        </g>
-        <!-- Small offset connector makes the structure feel deliberately assembled -->
-        <g>
-          <polygon fill="url(#beamTop)" points="290,298 346,330 318,346 262,314"/>
-          <polygon fill="url(#beamSide)" points="262,314 318,346 318,376 262,344"/>
-          <polygon fill="url(#beamEnd)" points="346,330 318,346 318,376 346,360"/>
-        </g>
-      </g>
-
-      <!-- Quiet drafting marks; the sculpture remains the visual focus. -->
-      <g fill="none" stroke="rgba(196,201,209,.24)" stroke-width="1">
-        <path d="M74 468 C220 520 470 514 650 438" stroke-dasharray="2 11"/>
-        <path d="M116 112 L116 88 M104 100 L128 100" opacity=".6"/>
-      </g>
-      <g fill="#c4c9d1" opacity=".58">
-        <circle cx="650" cy="438" r="2.8"/><circle cx="116" cy="88" r="2"/>
-        <circle cx="646" cy="116" r="2.2"/><circle cx="70" cy="168" r="1.8"/>
-      </g>
+      <g id="rubik-assembly" filter="url(#cubeShadow)" stroke="#202832" stroke-opacity=".58" stroke-width="2.2" stroke-linejoin="round"></g>
+      <g fill="none" stroke="rgba(196,201,209,.22)" stroke-width="1"><path d="M92 500h90M580 112h58" stroke-dasharray="2 9"/></g>
+      <script type="application/ecmascript"><![CDATA[
+        (() => {
+          const svg = document.currentScript.ownerSVGElement;
+          const root = svg.querySelector('#rubik-assembly');
+          const ns = 'http://www.w3.org/2000/svg';
+          const project = (x,y,z) => [380 + (x-y)*48, 345 + (x+y)*26 - z*52];
+          const blocks = [];
+          // A compact 3×3×3 modular core. Selected cuboids are pulled out
+          // along the cube axes, breaking the silhouette without losing the cube.
+          const pulled = {
+            '2,0,2': {x:1.05, y:0, z:0, sx:1.35, sy:1, sz:1},
+            '0,2,1': {x:-.82, y:0, z:0, sx:1.82, sy:1, sz:1},
+            '1,1,2': {x:0, y:-.82, z:0, sx:1, sy:1.82, sz:1},
+            '2,2,0': {x:0, y:0, z:-.72, sx:1, sy:1, sz:1.72},
+            '0,0,1': {x:-.62, y:0, z:0, sx:1.62, sy:1, sz:1},
+            '1,2,2': {x:0, y:.95, z:0, sx:1, sy:1.45, sz:1}
+          };
+          for (let z=0; z<3; z++) for (let y=0; y<3; y++) for (let x=0; x<3; x++) {
+            const key = x+','+y+','+z, p = pulled[key] || {};
+            blocks.push({x:x+(p.x||0), y:y+(p.y||0), z:z+(p.z||0), sx:p.sx||1, sy:p.sy||1, sz:p.sz||1, accent:['0,2,1','1,1,2'].includes(key), depth:x+y+z+(p.x||0)+(p.y||0)+(p.z||0)});
+          }
+          blocks.sort((a,b)=>a.depth-b.depth);
+          function polygon(points, fill) {
+            const el=document.createElementNS(ns,'polygon');
+            el.setAttribute('points',points.map(p=>p.join(',')).join(' '));
+            el.setAttribute('fill',fill); root.appendChild(el);
+          }
+          blocks.forEach(b=>{
+            const x=b.x+.045,y=b.y+.045,z=b.z+.045,X=x+b.sx-.09,Y=y+b.sy-.09,Z=z+b.sz-.09;
+            const A=project(x,y,Z), B=project(X,y,Z), C=project(X,Y,Z), D=project(x,Y,Z);
+            const E=project(x,y,z), F=project(X,y,z), G=project(X,Y,z), H=project(x,Y,z);
+            const accent=b.accent;
+            polygon([A,B,C,D], accent?'url(#tileAccent)':'url(#tileTop)');
+            polygon([A,D,H,E], accent?'#8fa697':'url(#tileLeft)');
+            polygon([B,C,G,F], 'url(#tileRight)');
+          });
+        })();
+      ]]></script>
     </svg>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
       <p class="hero-sub">We build the tools, you build the rest.</p>
