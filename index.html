@@ -416,48 +416,6 @@
 
     .footer-note { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--ink-muted); }
 
-    /* ── Philosophy section ── */
-    .philosophy {
-      border-top: 1px solid var(--border);
-      padding: 100px clamp(16px, 5vw, 56px);
-    }
-    .phil-inner { max-width: 1000px; margin: 0 auto; }
-    .phil-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto;
-      gap: 2px;
-    }
-    .phil-block {
-      padding: 40px 36px;
-      border: 1px solid var(--border);
-      margin: -1px 0 0 -1px;
-      transition: background 0.2s;
-    }
-    .phil-block:hover { background: var(--surface); }
-    .phil-num {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: var(--sage);
-      margin-bottom: 16px;
-    }
-    .phil-title {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      letter-spacing: -0.01em;
-      margin-bottom: 14px;
-      line-height: 1.2;
-    }
-    .phil-body {
-      font-size: 0.85rem;
-      color: var(--ink-soft);
-      line-height: 1.85;
-    }
-    @media (max-width: 680px) {
-      .phil-grid { grid-template-columns: 1fr; }
-    }
-
     @keyframes up {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -622,7 +580,7 @@
   <nav id="nav">
     <a class="nav-brand" href="index.html"><img src="aivorinlogonew.png" alt="Aivorin" style="width:36px;height:36px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span style="color:var(--sage);font-style:italic;">Ai</span><span style="color:var(--ink);">vorin</span></a>
     <div class="nav-links">
-      <a href="#philosophy" class="nav-link">Philosophy</a>
+      
       <a href="extensions.html" class="nav-link nav-tab">Extensions</a>
       <a href="apps.html" class="nav-link nav-tab">Apps</a>
       <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="nav-link nav-tab">Support Aivorin</a>
@@ -656,35 +614,10 @@
         <p>Simple tools. No unnecessary tracking. No dark patterns. Just software that works.</p>
       </div>
       <div class="hero-cta">
-      <a href="#philosophy" class="btn-primary">
+      <a href="#work" class="btn-primary">
         Our philosophy
         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Philosophy deep-dive -->
-  <section class="philosophy reveal" id="philosophy">
-    <div class="phil-inner">
-      <p class="about-label" style="text-align:center;margin-bottom:48px;">THE WAY WE THINK</p>
-      <div class="phil-grid">
-        <div class="phil-block reveal">
-          <div class="phil-num">01</div>
-          <h3 class="phil-title">We don't build empires.</h3>
-          <p class="phil-body">Aivorin isn't chasing scale. There's no roadmap to become a platform, no plans for enterprise tiers, no ambition to own your workflow. Each product exists on its own terms — because it solves a real problem, not because it feeds a growth chart.</p>
-        </div>
-        <div class="phil-block reveal" style="transition-delay:0.1s">
-          <div class="phil-num">02</div>
-          <h3 class="phil-title">Software should disappear.</h3>
-          <p class="phil-body">The best tool is one you stop thinking about. It works, it stays out of the way, and it never asks for more than it needs. Aivorin products are designed to be used, not noticed. When they do their job, you shouldn't have to think about them at all.</p>
-        </div>
-        <div class="phil-block reveal" style="transition-delay:0.2s;grid-column:1/-1;">
-          <div class="phil-num">03</div>
-          <h3 class="phil-title">Privacy isn't a feature.</h3>
-          <p class="phil-body">Collecting data, building profiles, and monetising attention is the default in most software. At Aivorin it's off the table. Some products may require an account where the feature genuinely needs it — but that data stays with you, never sold, never leveraged.</p>
-        </div>
-
       </div>
     </div>
   </section>
