@@ -446,82 +446,91 @@
 
   <!-- Hero -->
   <section class="hero">
-    <svg class="block-composition" viewBox="0 0 700 560" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <svg class="block-composition" viewBox="0 0 760 600" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="beamSilver" x1="0" y1="0" x2="0.9" y2="1">
-          <stop offset="0" stop-color="#f2f4f7"/>
-          <stop offset="0.48" stop-color="#aeb8c4"/>
-          <stop offset="1" stop-color="#687583"/>
+        <linearGradient id="beamTop" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f3f5f7"/><stop offset="1" stop-color="#b8c2cc"/>
         </linearGradient>
-        <linearGradient id="beamDark" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#b9c3ce"/>
-          <stop offset="1" stop-color="#596675"/>
+        <linearGradient id="beamSide" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#c1cad4"/><stop offset="1" stop-color="#778594"/>
         </linearGradient>
-        <linearGradient id="beamAccent" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#e0e6e3"/>
-          <stop offset="1" stop-color="#82958b"/>
+        <linearGradient id="beamEnd" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#9eabb9"/><stop offset="1" stop-color="#4f5d6c"/>
         </linearGradient>
-        <filter id="networkShadow" x="-35%" y="-35%" width="170%" height="190%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
-          <feOffset dx="5" dy="12" result="shadow"/>
+        <linearGradient id="beamAccentTop" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#e0e8e2"/><stop offset="1" stop-color="#a7b9ae"/>
+        </linearGradient>
+        <linearGradient id="beamAccentSide" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#a9b9ae"/><stop offset="1" stop-color="#63786d"/>
+        </linearGradient>
+        <filter id="beamShadow" x="-35%" y="-35%" width="180%" height="190%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="9"/>
+          <feOffset dx="5" dy="15" result="shadow"/>
           <feComponentTransfer><feFuncA type="linear" slope=".34"/></feComponentTransfer>
           <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
 
-      <!-- A single connected framework: long rectangular members meet at shared joints. -->
-      <g class="network-beams">
-        <!-- Rear members -->
-        <g class="beam-base" stroke="url(#beamDark)">
-          <path d="M170 248 L270 190 L370 248 L470 190 L550 236"/>
-          <path d="M270 190 L370 132 L470 190"/>
-          <path d="M370 248 L470 306 L550 260"/>
+      <!-- Solid rectangular beams, each built from top, side and end faces. -->
+      <g filter="url(#beamShadow)" stroke="rgba(255,255,255,.36)" stroke-width="1.25" stroke-linejoin="round">
+        <!-- Rear elevated cross-member -->
+        <g>
+          <polygon fill="url(#beamTop)" points="190,178 290,120 318,136 218,194"/>
+          <polygon fill="url(#beamSide)" points="218,194 318,136 318,166 218,224"/>
+          <polygon fill="url(#beamEnd)" points="190,178 218,194 218,224 190,208"/>
         </g>
-        <!-- Main structural members -->
-        <g class="beam-base" stroke="url(#beamSilver)">
-          <path d="M170 248 L270 306 L370 364 L470 306"/>
-          <path d="M270 190 L270 306"/>
-          <path d="M370 248 L370 364"/>
-          <path d="M470 190 L470 306"/>
-          <path d="M370 248 L470 190"/>
+        <!-- Long upper beam running right -->
+        <g>
+          <polygon fill="url(#beamTop)" points="290,120 438,205 410,221 262,136"/>
+          <polygon fill="url(#beamSide)" points="262,136 410,221 410,251 262,166"/>
+          <polygon fill="url(#beamEnd)" points="438,205 410,221 410,251 438,235"/>
         </g>
-        <!-- One restrained accent member -->
-        <path class="beam-base" stroke="url(#beamAccent)" d="M270 190 L370 248"/>
-        <!-- Fine bevel highlights make the beams read as solid rectangular members. -->
-        <g class="beam-edge">
-          <path d="M170 242 L270 184 L370 242 L470 184 L550 230"/>
-          <path d="M270 184 L370 126 L470 184"/>
-          <path d="M170 242 L270 300 L370 358 L470 300"/>
-          <path d="M264 190 L264 306 M364 248 L364 364 M464 190 L464 306"/>
+        <!-- Upright beam rising from the central joint -->
+        <g>
+          <polygon fill="url(#beamTop)" points="318,136 346,152 346,310 318,294"/>
+          <polygon fill="url(#beamSide)" points="346,152 374,136 374,294 346,310"/>
+          <polygon fill="url(#beamEnd)" points="318,136 346,120 374,136 346,152"/>
+        </g>
+        <!-- Lower diagonal beam, offset in height -->
+        <g>
+          <polygon fill="url(#beamTop)" points="346,310 474,384 446,400 318,326"/>
+          <polygon fill="url(#beamSide)" points="318,326 446,400 446,430 318,356"/>
+          <polygon fill="url(#beamEnd)" points="474,384 446,400 446,430 474,414"/>
+        </g>
+        <!-- Left descending member -->
+        <g>
+          <polygon fill="url(#beamAccentTop)" points="190,208 318,282 290,298 162,224"/>
+          <polygon fill="url(#beamAccentSide)" points="162,224 290,298 290,328 162,254"/>
+          <polygon fill="#52685d" points="190,208 218,224 218,254 190,238"/>
+        </g>
+        <!-- Right vertical member creates an open, asymmetrical frame -->
+        <g>
+          <polygon fill="url(#beamTop)" points="438,235 466,219 466,377 438,393"/>
+          <polygon fill="url(#beamSide)" points="466,219 494,235 494,393 466,377"/>
+          <polygon fill="url(#beamEnd)" points="438,235 466,219 494,235 466,251"/>
+        </g>
+        <!-- Short crossbar extending beyond the right upright -->
+        <g>
+          <polygon fill="url(#beamTop)" points="466,219 566,161 594,177 494,235"/>
+          <polygon fill="url(#beamSide)" points="494,235 594,177 594,207 494,265"/>
+          <polygon fill="url(#beamEnd)" points="566,161 594,177 594,207 566,191"/>
+        </g>
+        <!-- Small offset connector makes the structure feel deliberately assembled -->
+        <g>
+          <polygon fill="url(#beamTop)" points="290,298 346,330 318,346 262,314"/>
+          <polygon fill="url(#beamSide)" points="262,314 318,346 318,376 262,344"/>
+          <polygon fill="url(#beamEnd)" points="346,330 318,346 318,376 346,360"/>
         </g>
       </g>
 
-      <!-- Compact faceted joints unify the intersecting members. -->
-      <g class="network-node">
-        <path fill="#dce2e8" d="M252 178 L270 168 L288 178 L288 200 L270 211 L252 200Z"/>
-        <path fill="#aeb9c5" d="M252 178 L270 189 L270 211 L252 200Z"/>
-        <path fill="#718090" d="M288 178 L270 189 L270 211 L288 200Z"/>
-        <path fill="#e6eaee" d="M352 236 L370 226 L388 236 L388 258 L370 269 L352 258Z"/>
-        <path fill="#b5c0cb" d="M352 236 L370 247 L370 269 L352 258Z"/>
-        <path fill="#748190" d="M388 236 L370 247 L370 269 L388 258Z"/>
-        <path fill="#d5ded9" d="M452 178 L470 168 L488 178 L488 200 L470 211 L452 200Z"/>
-        <path fill="#a8b8ae" d="M452 178 L470 189 L470 211 L452 200Z"/>
-        <path fill="#73877c" d="M488 178 L470 189 L470 211 L488 200Z"/>
-        <path fill="#cbd3dc" d="M352 352 L370 342 L388 352 L388 374 L370 385 L352 374Z"/>
-        <path fill="#aab5c1" d="M352 352 L370 363 L370 385 L352 374Z"/>
-        <path fill="#687685" d="M388 352 L370 363 L370 385 L388 374Z"/>
+      <!-- Quiet drafting marks; the sculpture remains the visual focus. -->
+      <g fill="none" stroke="rgba(196,201,209,.24)" stroke-width="1">
+        <path d="M74 468 C220 520 470 514 650 438" stroke-dasharray="2 11"/>
+        <path d="M116 112 L116 88 M104 100 L128 100" opacity=".6"/>
       </g>
-
-      <!-- Quiet technical detailing -->
-      <g fill="none" stroke="rgba(196,201,209,.25)" stroke-width="1">
-        <path d="M72 438 C190 482 414 486 592 418" stroke-dasharray="2 10"/>
-        <path d="M112 104 L112 82 M101 93 L123 93" opacity=".6"/>
-      </g>
-      <g fill="#c4c9d1" opacity=".62">
-        <circle cx="592" cy="418" r="2.8"/>
-        <circle cx="112" cy="82" r="2"/>
-        <circle cx="610" cy="126" r="2.2"/>
-        <circle cx="48" cy="142" r="1.8"/>
+      <g fill="#c4c9d1" opacity=".58">
+        <circle cx="650" cy="438" r="2.8"/><circle cx="116" cy="88" r="2"/>
+        <circle cx="646" cy="116" r="2.2"/><circle cx="70" cy="168" r="1.8"/>
       </g>
     </svg>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
