@@ -49,7 +49,7 @@
     body::before {
       content: '';
       position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
       pointer-events: none; z-index: 9999;
     }
 
@@ -156,6 +156,17 @@
       z-index: 3;
       translate: calc(60 * var(--u)) calc(60 * var(--u));
     }
+
+    /* Gentle staggered float: animate the cube columns without changing their layout transforms. */
+    .cube-scene .cube > div {
+      animation: cube-float 4.8s ease-in-out infinite;
+    }
+    .cube-scene .cube:nth-child(2) > div { animation-delay: -1.6s; }
+    .cube-scene .cube:nth-child(3) > div { animation-delay: -3.2s; }
+    @keyframes cube-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
     .cube-scene .cube > div {
       position: absolute;
       display: flex;
@@ -216,6 +227,7 @@
     .skip-link:focus { transform: none; }
     @media (prefers-reduced-motion: reduce) {
       .cube-scene { animation: none; transition: none; }
+      .cube-scene .cube > div { animation: none; }
       .cube-scene span,
       .cube-scene span::before,
       .cube-scene span::after { transition: none; }
@@ -685,6 +697,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .hero-tag, .hero-title, .hero-sub, .hero-description, .hero-cta { animation: none; opacity: 1; transform: none; }
+      .cube-scene .cube > div { animation: none; }
       .reveal { opacity: 1; transform: none; transition: none; }
     }
   </style>
