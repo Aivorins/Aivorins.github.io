@@ -992,7 +992,14 @@ body{
 .nav-tab-active {
   border-color: rgba(220,226,236,0.48) !important;
   background: rgba(196,201,209,0.15) !important;
-}</style>
+}/* The current section is only a touch brighter; button dimensions stay unchanged. */
+.nav-link.nav-tab-active {
+  border-color:rgba(220,226,236,.58);
+  background:rgba(196,201,209,.17);
+  color:#f1f2f4;
+}
+
+</style>
 </head>
 <body>
 
@@ -1110,10 +1117,3 @@ body{
 
 </body>
 </html>
-
-/* The current section is only a touch brighter; button dimensions stay unchanged. */
-.nav-link.nav-tab-active {
-  border-color:rgba(220,226,236,.58);
-  background:rgba(196,201,209,.17);
-  color:#f1f2f4;
-}
