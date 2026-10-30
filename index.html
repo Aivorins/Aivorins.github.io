@@ -124,7 +124,7 @@
       height: 300px;
       pointer-events: auto;
       z-index: 0;
-      transform: translateY(-50%) skewY(-20deg) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      transform: translateY(-50%) skewY(-20deg);
       transform-origin: center center;
       transform-style: preserve-3d;
       animation: none;
@@ -731,24 +731,6 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 30);
     }, { passive: true });
-
-    // Pointer tilt for the layered cube (disabled for touch and reduced motion).
-    const composition = document.querySelector('.cube-scene');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (composition && !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      const hero = composition.closest('.hero');
-      hero.addEventListener('pointermove', (event) => {
-        const bounds = hero.getBoundingClientRect();
-        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-        composition.style.setProperty('--tilt-x', (y * -3).toFixed(2) + 'deg');
-        composition.style.setProperty('--tilt-y', (x * 4).toFixed(2) + 'deg');
-      }, { passive: true });
-      hero.addEventListener('pointerleave', () => {
-        composition.style.setProperty('--tilt-x', '0deg');
-        composition.style.setProperty('--tilt-y', '0deg');
-      }, { passive: true });
-    }
 
     // Scroll reveal
     const revealEls = document.querySelectorAll('.reveal');
