@@ -1157,12 +1157,20 @@ nav#nav .nav-link.nav-support {
     /* Match the homepage navigation's transparent-to-frosted scroll treatment. */
     nav#nav {
       background: transparent !important;
-      border-bottom-color: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      outline: none !important;
       transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease, -webkit-backdrop-filter .3s ease !important;
+    }
+    nav#nav::before,
+    nav#nav::after {
+      content: none !important;
+      display: none !important;
     }
     nav#nav.scrolled {
       background: rgba(16,17,20,.92) !important;
-      border-bottom-color: var(--border) !important;
+      border: 0 !important;
+      border-bottom: 1px solid var(--border) !important;
       backdrop-filter: blur(20px) !important;
       -webkit-backdrop-filter: blur(20px) !important;
     }
