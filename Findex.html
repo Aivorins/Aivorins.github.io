@@ -702,15 +702,12 @@ footer { margin-top:0; border-color:var(--border); padding:36px clamp(16px,5vw,5
 }
 html { scroll-behavior:smooth; scroll-padding-top:100px; }
 body {
-  background:
-    radial-gradient(ellipse 48rem 38rem at 100% 0%,rgba(225,229,237,.13),transparent 68%),
-    radial-gradient(ellipse 48rem 38rem at 0% 100%,rgba(92,99,112,.22),transparent 68%),
-    #101114;
+  background:radial-gradient(ellipse at 100% 0%, rgba(220,224,231,0.24) 0%, rgba(220,224,231,0.08) 22%, transparent 48%), radial-gradient(ellipse at 0% 100%, rgba(58,63,72,0.82) 0%, rgba(40,44,52,0.38) 30%, transparent 58%), var(--bg);
   color:var(--ink);
   font-family:var(--sans);
   line-height:1.65;
 }
-body::before { opacity:.72; }
+body::before { opacity:1; }
 a { -webkit-tap-highlight-color:transparent; }
 ::selection { background:rgba(203,208,216,.24); color:#fff; }
 
