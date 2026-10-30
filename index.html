@@ -6,6 +6,12 @@
   <title>Aivorin — Build the rest.</title>
   <meta name="description" content="Aivorin builds tools for people who value their focus and their data." />
   <link rel="icon" type="image/png" href="aivorinlogonew.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Aivorin" />
+  <meta property="og:title" content="Aivorin — Build the rest." />
+  <meta property="og:description" content="Aivorin builds tools for people who value their focus and their data." />
+  <meta property="og:url" content="https://aivorins.github.io/" />
+  <meta name="twitter:card" content="summary" />
   <meta property="og:image" content="https://aivorins.github.io/aivorinlogonew.png" />
   <meta property="og:image:width" content="512" />
   <meta property="og:image:height" content="512" />
@@ -15,13 +21,14 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
+      --u-fluid: clamp(.5px, calc(100vw / 1100), 1px); /* cube unit: 1px at >=1100px wide, shrinking smoothly to .5px */
       --bg:        #101114;
       --surface:   #191b20;
       --surface-2: #24272e;
       --border:    rgba(255,255,255,0.07);
       --ink:       #f1f2f4;
       --ink-soft:  #a3a7af;
-      --ink-muted: #686d76;
+      --ink-muted: #8b919b; /* was #686d76: ~3.7:1 on --bg, now ~6:1 (WCAG AA needs 4.5:1) */
       --sage:      #c4c9d1;
       --sage-dim:  #7b828d;
       --sage-glow: rgba(196,201,209,0.12);
@@ -119,9 +126,10 @@
     .cube-scene {
       position: absolute;
       left: clamp(24px, 5vw, 76px);
-      top: 50%;
-      width: 360px;
-      height: 300px;
+      top: calc(50% + 20px - 76 * var(--u)); /* artwork's visual centre sits ~76u below its box centre; align it with the text block */
+      --u: var(--u-fluid); /* every size below is a multiple of --u, so changing it rescales the whole object */
+      width: calc(360 * var(--u));
+      height: calc(300 * var(--u));
       pointer-events: auto;
       z-index: 0;
       transform: translateY(-50%) skewY(-20deg);
@@ -130,7 +138,7 @@
       animation: none;
       transition: transform 180ms ease-out;
       will-change: transform;
-      filter: drop-shadow(0 22px 24px rgba(0,0,0,.28));
+      filter: drop-shadow(0 calc(22 * var(--u)) calc(24 * var(--u)) rgba(0,0,0,.28));
     }
     .cube-scene .cube {
       position: absolute;
@@ -142,26 +150,26 @@
     }
     .cube-scene .cube:nth-child(2) {
       z-index: 1;
-      translate: -60px -60px;
+      translate: calc(-60 * var(--u)) calc(-60 * var(--u));
     }
     .cube-scene .cube:nth-child(3) {
       z-index: 3;
-      translate: 60px 60px;
+      translate: calc(60 * var(--u)) calc(60 * var(--u));
     }
     .cube-scene .cube > div {
       position: absolute;
       display: flex;
       flex-direction: column;
-      gap: 30px;
-      translate: calc(-70px * var(--x)) calc(-60px * var(--y));
+      gap: calc(30 * var(--u));
+      translate: calc(-70 * var(--u) * var(--x)) calc(-60 * var(--u) * var(--y));
     }
     .cube-scene span {
       position: relative;
       display: inline-block;
-      width: 50px;
-      height: 50px;
-      flex: 0 0 50px;
-      background: #c5c9cf;
+      width: calc(50 * var(--u));
+      height: calc(50 * var(--u));
+      flex: 0 0 calc(50 * var(--u));
+      background: #96999d; /* front face (was #c5c9cf) */
       z-index: calc(1 * var(--i));
       transition: background 0.18s;
     }
@@ -172,19 +180,19 @@
       transition: background 0.18s;
     }
     .cube-scene span::before {
-      left: -40px;
-      width: 40px;
+      left: calc(-40 * var(--u));
+      width: calc(40 * var(--u) + .75px); /* .75px overlap hides anti-aliasing seams at fractional scales */
       height: 100%;
-      background: #aeb4bd;
+      background: #848990; /* side face (was #aeb4bd) */
       transform-origin: right;
       transform: skewY(45deg);
     }
     .cube-scene span::after {
-      top: -40px;
+      top: calc(-40 * var(--u));
       left: 0;
       width: 100%;
-      height: 40px;
-      background: #d8dce2;
+      height: calc(40 * var(--u) + .75px);
+      background: #a4a7ac; /* top face (was #d8dce2) */
       transform-origin: bottom;
       transform: skewX(45deg);
     }
@@ -197,6 +205,15 @@
       transition: background 0s;
       background: #252a30;
     }
+    :focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
+    .skip-link {
+      position: fixed; top: 8px; left: 8px; z-index: 10000;
+      padding: 8px 14px; border-radius: 6px;
+      background: var(--ink); color: var(--bg);
+      font-family: var(--mono); font-size: 0.72rem; text-decoration: none;
+      transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: none; }
     @media (prefers-reduced-motion: reduce) {
       .cube-scene { animation: none; transition: none; }
       .cube-scene span,
@@ -415,6 +432,9 @@
     .footer-brand { font-family: var(--serif); font-size: 1rem; color: var(--ink-soft); }
 
     .footer-note { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--ink-muted); }
+    .footer-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 24px; }
+    .footer-contact { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+    .footer-contact:hover { color: var(--ink); }
 
     @keyframes up {
       from { opacity: 0; transform: translateY(20px); }
@@ -435,9 +455,10 @@
     @media (min-width: 561px) and (max-width: 860px) {
       .hero { padding: 110px 24px 64px; }
       .cube-scene {
-        left: -160px;
-        top: 47%;
-        opacity: .82;
+        /* fit between the left edge and the text column (text starts at 46vw - 24px) */
+        --u: min(var(--u-fluid), clamp(.45px, calc((46vw - 48px) / 360), 1px));
+        left: 12px;
+        top: calc(50% + 23px - 76 * var(--u));
       }
       .hero-content { width: 54%; align-items: center; text-align: center; }
       .hero-title { font-size: clamp(2.2rem, 6vw, 3.8rem); }
@@ -495,13 +516,6 @@
       .hero { padding: 100px 16px 60px; }
       .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
       .hero { min-height: 100svh; flex-direction: column; justify-content: center; text-align: center; padding: 190px 18px 56px; }
-      .cube-scene {
-        top: 8px;
-        left: 50%;
-        transform: translateX(-50%) skewY(-20deg);
-        transform-origin: top center;
-        opacity: .42;
-      }
       .hero-content { width: 100%; margin: 0; align-items: center; }
       .hero-title { max-width: 100%; }
       .hero-sub { margin-left: auto; margin-right: auto; }
@@ -514,10 +528,6 @@
 
     @media (max-width: 380px) {
       .hero { padding-top: 166px; }
-      .cube-scene {
-        top: 0;
-        transform: translateX(-50%) skewY(-20deg) scale(.88);
-      }
       .hero-title { font-size: clamp(1.9rem, 10vw, 2.5rem); }
     }
 
@@ -530,21 +540,24 @@
         justify-content: flex-start;
         align-items: center;
         gap: 28px;
-        padding: 104px 18px 64px;
+        padding: 116px 18px 64px;
         overflow: hidden;
       }
       .cube-scene {
         position: relative;
         inset: auto;
-        flex: 0 0 300px;
-        width: 360px;
+        /* same fluid size as every other width, so the cube never grows when the window gets narrower */
+        --u: var(--u-fluid);
+        flex: 0 0 auto;
+        width: calc(360 * var(--u));
         max-width: none;
-        height: 300px;
-        margin: 0 auto 150px;
+        height: calc(300 * var(--u));
+        /* the skewed artwork hangs ~124u below its box; reserve that space so it never touches the text */
+        margin: 0 auto calc(150 * var(--u));
         left: auto;
         top: auto;
         opacity: 1;
-        transform: translateX(0) skewY(-20deg);
+        transform: skewY(-20deg);
         transform-origin: center center;
       }
       .hero-content {
@@ -573,13 +586,13 @@
         padding: 76px 24px 32px;
       }
       .cube-scene {
+        /* limited by both the free width left of the text and the viewport height */
+        --u: clamp(.4px, min(var(--u-fluid), calc((48vw - 48px) / 360), calc((100svh - 116px) / 396)), 1px);
         position: absolute;
         left: 12px;
-        top: 50%;
-        width: 360px;
-        height: 300px;
+        /* artwork's visual centre sits ~76u below its box centre; offset it, and centre in the padded hero area */
+        top: calc(50% + 22px - 76 * var(--u));
         transform: translateY(-50%) skewY(-20deg);
-        opacity: .9;
       }
       .hero-content {
         width: 52%;
@@ -602,11 +615,10 @@
         padding: 72px 18px 24px;
       }
       .cube-scene {
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%) scale(.78) skewY(-20deg);
-        transform-origin: left center;
-        opacity: .85;
+        --u: clamp(.4px, min(var(--u-fluid), calc((48vw - 36px) / 360), calc((100svh - 100px) / 396)), 1px);
+        left: 6px;
+        top: calc(50% + 24px - 76 * var(--u));
+        transform: translateY(-50%) skewY(-20deg);
       }
       .hero-content { width: 52%; margin-left: auto; align-items: center; text-align: center; }
       .hero-title { font-size: clamp(1.8rem, 5vw, 2.6rem); }
@@ -614,9 +626,71 @@
       .hero-description { max-width: 260px; font-size: .76rem; margin-bottom: 18px; }
       .hero-cta { justify-content: center; }
     }
+    /* ── Polish pass: alignment, contrast, touch targets, spacing ──
+       Kept after the breakpoint rules above so it wins where they set centered text. */
+    .hero-content { align-items: flex-start; text-align: left; }
+    .hero-sub, .hero-description { margin-left: 0; margin-right: 0; }
+    .hero-cta { justify-content: flex-start; }
+
+    .btn-ghost {
+      color: var(--ink);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.22);
+      min-height: 44px;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.4); }
+    .btn-primary, .btn-support { min-height: 44px; }
+    .section-label { font-size: 0.7rem; }
+    .footer-contact { font-size: 0.75rem; }
+    .ext-preview, .support { padding-top: clamp(56px, 8vw, 80px); padding-bottom: clamp(56px, 8vw, 80px); }
+
+    /* tap feedback for the cube (hover does nothing on touch) */
+    .cube-scene span:active,
+    .cube-scene span:active::before,
+    .cube-scene span:active::after { background: #252a30; transition: background 0s; }
+
+    @media (max-width: 860px) {
+      .nav-link {
+        display: inline-flex !important; align-items: center;
+        min-height: 40px; padding: 0 12px; font-size: 0.72rem;
+      }
+    }
+    /* phones: the 3rd paragraph repeats the 1st; hide it so the main button reaches the first screen */
+    @media (max-width: 560px) and (orientation: portrait) {
+      .hero-description p:last-child { display: none; }
+    }
+    /* phones: no filter on 27 skewed blocks (cheaper to paint); soften with opacity instead */
+    @media (max-width: 560px), (hover: none) {
+      .cube-scene { filter: none; }
+    }
+    /* very wide screens: pull the cube and text toward each other instead of pinning them to the edges */
+    @media (min-width: 1281px) {
+      .hero {
+        padding-left: max(clamp(24px, 7vw, 110px), calc((100vw - 1280px) / 2));
+        padding-right: max(clamp(24px, 7vw, 110px), calc((100vw - 1280px) / 2));
+      }
+      .cube-scene { left: max(clamp(24px, 5vw, 76px), calc((100vw - 1280px) / 2 - 34px)); }
+    }
+    /* narrow landscape windows: nav is two rows tall here, give the hero room under it */
+    @media (max-width: 560px) and (max-height: 560px) and (orientation: landscape) {
+      .hero { padding-top: 108px; }
+      .cube-scene {
+        --u: clamp(.4px, min(var(--u-fluid), calc((48vw - 36px) / 360), calc((100svh - 140px) / 396)), 1px);
+        top: calc(50% + 42px - 76 * var(--u));
+      }
+    }
+
+
+    /* Reduced motion: must come after the rules it overrides (hero animations, .reveal). */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero-tag, .hero-title, .hero-sub, .hero-description, .hero-cta { animation: none; opacity: 1; transform: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Nav -->
   <nav id="nav">
@@ -629,6 +703,7 @@
     </div>
   </nav>
 
+  <main id="main">
   <!-- Hero -->
   <section class="hero">
 <div class="cube-scene" role="presentation" aria-hidden="true">
@@ -655,12 +730,6 @@
         <p>Every product is built to do one thing — and do it well. Software should be honest about what it does and invisible when it doesn't need attention.</p>
         <p>Simple tools. No unnecessary tracking. No dark patterns. Just software that works.</p>
       </div>
-      <div class="hero-cta">
-      <a href="#work" class="btn-primary">
-        Our philosophy
-        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      </div>
     </div>
   </section>
 
@@ -685,10 +754,14 @@
     </a>
   </section>
 
+  </main>
+
   <!-- Footer -->
   <footer>
 <span class="footer-brand"><img src="aivorinlogonew.png" alt="Aivorin" style="width:22px;height:22px;border-radius:50%;opacity:0.7;margin-right:8px;vertical-align:middle;" /><span style="color:var(--sage);font-style:italic;">Ai</span><span style="color:var(--ink);">vorin</span></span>
-    <span class="footer-note">FREE · PRIVATE · OPEN</span>
+    <div class="footer-meta">
+      <a class="footer-contact" href="mailto:hello@example.com">hello@example.com</a>
+    </div>
   </footer>
 
   <script>
