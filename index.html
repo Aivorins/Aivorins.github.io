@@ -107,7 +107,7 @@
     }
 
 
-    /* ── Matte 3D block composition ── */
+    /* ── 2D isometric block composition ── */
     .hero {
       flex-direction: row;
       justify-content: space-between;
@@ -122,9 +122,6 @@
       width: min(58vw, 760px);
       height: 500px;
       transform: translateY(-50%);
-      perspective: 850px;
-      perspective-origin: 42% 48%;
-      transform-style: preserve-3d;
       pointer-events: none;
       z-index: 0;
       isolation: isolate;
@@ -142,89 +139,55 @@
       box-shadow: 0 0 18px rgba(225,230,238,0.14);
       z-index: -1;
     }
-    .white-box {
-      --w: 170px;
-      --h: 125px;
-      --d: 72px;
-      --rx: -25deg;
-      --ry: -34deg;
-      --rz: -8deg;
-      --tz: 0px;
+    .iso-box {
+      --box-w: 230px;
+      --box-h: 210px;
       position: absolute;
-      left: var(--x);
-      top: var(--y);
-      width: var(--w);
-      height: var(--h);
-      transform-style: preserve-3d;
-      transform: translate3d(0, 0, var(--tz)) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz));
-      filter: drop-shadow(18px 28px 20px rgba(0,0,0,0.42));
+      width: var(--box-w);
+      height: var(--box-h);
+      filter: drop-shadow(12px 22px 18px rgba(0,0,0,0.42));
     }
-    .white-box .box-face {
+    .iso-box span {
       position: absolute;
       display: block;
-      backface-visibility: hidden;
-      border: 1px solid rgba(255,255,255,0.62);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.42), inset 0 -10px 18px rgba(55,62,72,0.10);
+      inset: 0;
     }
-    .white-box .front, .white-box .back {
-      width: var(--w);
-      height: var(--h);
-      left: 0;
-      top: 0;
+    .iso-box .iso-top {
+      clip-path: polygon(50% 0, 100% 25%, 50% 50%, 0 25%);
+      background: linear-gradient(115deg, #ffffff 0%, #e8ebef 54%, #cbd1d9 100%);
+      filter: brightness(1.04);
     }
-    .white-box .front {
-      transform: translateZ(calc(var(--d) / 2));
-      background: linear-gradient(145deg, #ffffff 0%, #e8ebef 48%, #cbd1d9 100%);
+    .iso-box .iso-left {
+      clip-path: polygon(0 25%, 50% 50%, 50% 100%, 0 75%);
+      background: linear-gradient(180deg, #e4e8ed 0%, #aeb7c3 100%);
     }
-    .white-box .back {
-      transform: rotateY(180deg) translateZ(calc(var(--d) / 2));
-      background: linear-gradient(145deg, #aeb6c1, #858f9d);
+    .iso-box .iso-right {
+      clip-path: polygon(50% 50%, 100% 25%, 100% 75%, 50% 100%);
+      background: linear-gradient(180deg, #aeb7c3 0%, #737e8c 100%);
     }
-    .white-box .right, .white-box .left {
-      width: var(--d);
-      height: var(--h);
-      left: calc((var(--w) - var(--d)) / 2);
-      top: 0;
+    .iso-box .iso-top::after,
+    .iso-box .iso-left::after,
+    .iso-box .iso-right::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255,255,255,0.38);
     }
-    .white-box .right {
-      transform: rotateY(90deg) translateZ(calc(var(--w) / 2));
-      background: linear-gradient(180deg, #c2c9d2 0%, #929ba8 100%);
-      border-color: rgba(255,255,255,0.30);
+    .iso-box.box-large {
+      --box-w: 280px; --box-h: 250px;
+      left: 26%; top: 31%;
     }
-    .white-box .left {
-      transform: rotateY(-90deg) translateZ(calc(var(--w) / 2));
-      background: linear-gradient(180deg, #f1f3f6 0%, #c6ccd5 100%);
+    .iso-box.box-small {
+      --box-w: 154px; --box-h: 138px;
+      left: 8%; top: 15%;
+      z-index: 2;
+      filter: drop-shadow(9px 16px 13px rgba(0,0,0,0.38));
     }
-    .white-box .top, .white-box .bottom {
-      width: var(--w);
-      height: var(--d);
-      left: 0;
-      top: calc((var(--h) - var(--d)) / 2);
-    }
-    .white-box .top {
-      transform: rotateX(90deg) translateZ(calc(var(--h) / 2));
-      background: linear-gradient(110deg, #ffffff 0%, #f0f2f5 55%, #cfd5dd 100%);
-      border-color: rgba(255,255,255,0.8);
-    }
-    .white-box .bottom {
-      transform: rotateX(-90deg) translateZ(calc(var(--h) / 2));
-      background: linear-gradient(110deg, #8d96a3, #b0b8c3);
-      border-color: rgba(0,0,0,0.12);
-    }
-    .box-large {
-      --w: 205px; --h: 145px; --d: 104px;
-      --x: 25%; --y: 34%; --tz: 22px;
-      --rx: -27deg; --ry: -38deg; --rz: -9deg;
-    }
-    .box-small {
-      --w: 112px; --h: 104px; --d: 88px;
-      --x: 8%; --y: 18%; --tz: 74px;
-      --rx: -25deg; --ry: -38deg; --rz: 12deg;
-    }
-    .box-medium {
-      --w: 150px; --h: 112px; --d: 82px;
-      --x: 55%; --y: 63%; --tz: -18px;
-      --rx: -27deg; --ry: -38deg; --rz: 7deg;
+    .iso-box.box-medium {
+      --box-w: 205px; --box-h: 184px;
+      left: 57%; top: 61%;
+      z-index: 1;
+      filter: drop-shadow(10px 18px 15px rgba(0,0,0,0.40));
     }
     .hero-content {
       position: relative;
@@ -519,20 +482,14 @@
   <!-- Hero -->
   <section class="hero">
     <div class="block-composition" aria-hidden="true">
-      <div class="white-box box-small">
-        <span class="box-face front"></span><span class="box-face back"></span>
-        <span class="box-face right"></span><span class="box-face left"></span>
-        <span class="box-face top"></span><span class="box-face bottom"></span>
+      <div class="iso-box box-small">
+        <span class="iso-top"></span><span class="iso-left"></span><span class="iso-right"></span>
       </div>
-      <div class="white-box box-large">
-        <span class="box-face front"></span><span class="box-face back"></span>
-        <span class="box-face right"></span><span class="box-face left"></span>
-        <span class="box-face top"></span><span class="box-face bottom"></span>
+      <div class="iso-box box-large">
+        <span class="iso-top"></span><span class="iso-left"></span><span class="iso-right"></span>
       </div>
-      <div class="white-box box-medium">
-        <span class="box-face front"></span><span class="box-face back"></span>
-        <span class="box-face right"></span><span class="box-face left"></span>
-        <span class="box-face top"></span><span class="box-face bottom"></span>
+      <div class="iso-box box-medium">
+        <span class="iso-top"></span><span class="iso-left"></span><span class="iso-right"></span>
       </div>
     </div>
     <div class="hero-content">
