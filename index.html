@@ -157,15 +157,14 @@
       translate: calc(60 * var(--u)) calc(60 * var(--u));
     }
 
-    /* Gentle staggered float: animate the cube columns without changing their layout transforms. */
-    .cube-scene .cube > div {
-      animation: cube-float 4.8s ease-in-out infinite;
+    /* Each individual block bounces briefly when clicked or tapped. */
+    .cube-scene span.is-bouncing {
+      animation: cube-block-bounce 420ms cubic-bezier(.2,.8,.3,1);
     }
-    .cube-scene .cube:nth-child(2) > div { animation-delay: -1.6s; }
-    .cube-scene .cube:nth-child(3) > div { animation-delay: -3.2s; }
-    @keyframes cube-float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
+    @keyframes cube-block-bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      35% { transform: translateY(calc(-9 * var(--u))) scale(1.06); }
+      65% { transform: translateY(calc(2 * var(--u))) scale(.98); }
     }
     .cube-scene .cube > div {
       position: absolute;
@@ -227,7 +226,6 @@
     .skip-link:focus { transform: none; }
     @media (prefers-reduced-motion: reduce) {
       .cube-scene { animation: none; transition: none; }
-      .cube-scene .cube > div { animation: none; }
       .cube-scene span,
       .cube-scene span::before,
       .cube-scene span::after { transition: none; }
@@ -697,7 +695,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .hero-tag, .hero-title, .hero-sub, .hero-description, .hero-cta { animation: none; opacity: 1; transform: none; }
-      .cube-scene .cube > div { animation: none; }
+      .cube-scene span.is-bouncing { animation: none; }
       .reveal { opacity: 1; transform: none; transition: none; }
     }
   </style>
@@ -783,6 +781,18 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 30);
     }, { passive: true });
+
+    // Bounce only the individual cube block that was clicked or tapped.
+    document.querySelectorAll('.cube-scene span').forEach(block => {
+      block.addEventListener('click', () => {
+        block.classList.remove('is-bouncing');
+        void block.offsetWidth;
+        block.classList.add('is-bouncing');
+      });
+      block.addEventListener('animationend', () => {
+        block.classList.remove('is-bouncing');
+      });
+    });
 
     // Scroll reveal
     const revealEls = document.querySelectorAll('.reveal');
