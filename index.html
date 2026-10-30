@@ -450,13 +450,19 @@
         </linearGradient>
       </defs>
       <g class="cube-group" filter="drop-shadow(12px 22px 18px rgba(0,0,0,0.42))">
-        <polygon class="cube-top" points="250,100 340,145 250,190 160,145"/>
-        <polygon class="cube-top" points="340,145 430,190 340,235 250,190"/>
-        <polygon class="cube-right" points="430,280 340,325 340,235 430,190"/>
-        <polygon class="cube-left" points="250,280 340,325 340,235 250,190"/>
-        <polygon class="cube-top" points="160,145 250,190 160,235 70,190"/>
-        <polygon class="cube-right" points="250,280 160,325 160,235 250,190"/>
-        <polygon class="cube-left" points="70,280 160,325 160,235 70,190"/>
+        <!-- Left column: one cube high -->
+        <polygon class="cube-top" points="160,105 250,150 160,195 70,150"/>
+        <polygon class="cube-left" points="70,150 160,195 160,285 70,240"/>
+        <polygon class="cube-right" points="250,150 160,195 160,285 250,240"/>
+
+        <!-- Center column: two cubes high -->
+        <polygon class="cube-top" points="250,60 340,105 250,150 160,105"/>
+        <polygon class="cube-left" points="160,105 250,150 250,285 160,240"/>
+        <polygon class="cube-right" points="340,105 250,150 250,285 340,240"/>
+
+        <!-- Right column: three cube levels, stepped upward -->
+        <polygon class="cube-top" points="340,105 430,150 340,195 250,150"/>
+        <polygon class="cube-right" points="430,150 340,195 340,285 430,240"/>
       </g>
     </svg>
     <div class="hero-content">
