@@ -998,6 +998,37 @@ body{
   color:#f1f2f4;
 }
 
+
+
+/* Match the homepage footer exactly. */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 36px clamp(16px, 5vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink-soft);
+}
+.footer-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+.footer-contact {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+}
 </style>
 </head>
 <body>
@@ -1078,8 +1109,10 @@ body{
   </div>
 
   <footer>
-    <a class="footer-brand" href="index.html"><img src="aivorinlogonew.png" alt="Aivorin" /><span class="brand-ai">Ai</span><span class="brand-rest">vorin</span></a>
-    <div class="footer-meta"><span class="footer-contact">hello@example.com</span></div>
+<span class="footer-brand"><img src="aivorinlogonew.png" alt="Aivorin" style="width:22px;height:22px;border-radius:50%;opacity:0.7;margin-right:8px;vertical-align:middle;" /><span style="color:var(--sage);font-style:italic;">Ai</span><span style="color:var(--ink);">vorin</span></span>
+    <div class="footer-meta">
+      <span class="footer-contact">hello@example.com</span>
+    </div>
   </footer>
 
   <script>
