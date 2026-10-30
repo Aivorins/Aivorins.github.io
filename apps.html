@@ -881,6 +881,24 @@ nav#nav .nav-link.nav-support {
 
 
     
+    /* Match the homepage navigation's transparent-to-frosted scroll treatment. */
+    nav#nav {
+      background: transparent !important;
+      border-bottom-color: transparent !important;
+      transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease, -webkit-backdrop-filter .3s ease !important;
+    }
+    nav#nav.scrolled {
+      background: rgba(16,17,20,.92) !important;
+      border-bottom-color: var(--border) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+    }
+    nav#nav .nav-brand img {
+      width: 36px !important;
+      height: 36px !important;
+      filter: none !important;
+    }
+
     /* Homepage-matched ambient background; no exterior card lighting. */
     body {
       background: radial-gradient(ellipse at 100% 0%, rgba(220,224,231,0.24) 0%, rgba(220,224,231,0.08) 22%, transparent 48%), radial-gradient(ellipse at 0% 100%, rgba(58,63,72,0.82) 0%, rgba(40,44,52,0.38) 30%, transparent 58%), #101114 !important;
