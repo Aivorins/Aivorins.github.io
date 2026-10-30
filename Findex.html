@@ -677,8 +677,8 @@ nav.scrolled { background:rgba(16,17,20,.92); backdrop-filter:blur(20px); border
 .nav-link:hover { color:var(--ink-soft); border-color:var(--border); }
 .nav-link.nav-tab { border-color:rgba(196,201,209,.35); background:rgba(196,201,209,.1); color:var(--sage); }
 .nav-link.nav-tab:hover { background:rgba(196,201,209,.2); }
-.nav-link.cta { color:var(--sage); border-color:rgba(196,201,209,.25); background:var(--sage-glow); }
-.nav-link.cta:hover { background:rgba(196,201,209,.18); color:var(--sage); }
+.nav-link.nav-support { color:var(--sage); border-color:rgba(196,201,209,.25); background:var(--sage-glow); }
+.nav-link.nav-support:hover { background:rgba(196,201,209,.18); color:var(--sage); }
 footer { margin-top:0; border-color:var(--border); padding:36px clamp(16px,5vw,56px); }
 .footer-brand { display:inline-flex; align-items:center; font-family:var(--serif); font-size:1rem; color:var(--ink-soft); text-decoration:none; }
 .footer-brand img { width:22px!important; height:22px!important; border-radius:50%; margin-right:8px!important; vertical-align:middle; opacity:.7; }
@@ -745,8 +745,8 @@ nav#nav.scrolled {
 }
 .nav-link:hover { color:var(--ink); border-color:var(--border); background:rgba(255,255,255,.035); transform:translateY(-1px); }
 .nav-link.nav-tab { color:var(--ink); border-color:rgba(203,208,216,.2); background:rgba(203,208,216,.075); }
-.nav-link.cta { color:#111318; background:#d7dbe1; border-color:#d7dbe1; font-weight:500; }
-.nav-link.cta:hover { color:#111318; background:#f0f1f3; border-color:#f0f1f3; }
+.nav-link.nav-support { color:#111318; background:#d7dbe1; border-color:#d7dbe1; font-weight:500; }
+.nav-link.nav-support:hover { color:#111318; background:#f0f1f3; border-color:#f0f1f3; }
 
 /* Shared hero language: editorial typography, breathing room, one clear focal point. */
 .hero {
@@ -1147,6 +1147,33 @@ nav#nav > .nav-links { flex:0 1 auto; min-width:0; max-width:100%; }
   nav#nav > .nav-links { width:100%; max-width:100%; flex:0 0 auto; justify-content:flex-start; }
 }
 
+
+/* Keep the navigation support link separate from the large .cta section styles. */
+nav#nav .nav-link.nav-support {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  width:auto;
+  min-width:0;
+  min-height:0;
+  margin:0;
+  padding:9px 15px;
+  font-size:.66rem;
+  line-height:1.2;
+  letter-spacing:.075em;
+  white-space:nowrap;
+  border-radius:7px;
+  box-shadow:none;
+  transform:none;
+}
+@media (max-width:800px) {
+  nav#nav .nav-link.nav-support { padding:7px 10px; font-size:.58rem; }
+}
+@media (max-width:560px) {
+  nav#nav .nav-link.nav-support { padding:6px 9px; font-size:.6rem; }
+}
+
 </style>
 </head>
 <body>
@@ -1156,7 +1183,7 @@ nav#nav > .nav-links { flex:0 1 auto; min-width:0; max-width:100%; }
     <div class="nav-links">
       <a href="extensions.html" class="nav-link">Extensions</a>
       <a href="apps.html" class="nav-link">Apps</a>
-      <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="nav-link cta">Support Aivorin</a>
+      <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="nav-link nav-support">Support Aivorin</a>
     </div>
   </nav>
 
