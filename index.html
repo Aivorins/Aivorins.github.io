@@ -170,9 +170,16 @@
       position: absolute;
       display: flex;
       flex-direction: column;
-      gap: calc(30 * var(--u));
-      translate: calc(-70 * var(--u) * var(--x)) calc(-60 * var(--u) * var(--y));
+      gap: calc(4 * var(--u));
+      translate: calc(-54 * var(--u) * var(--x)) calc(-60 * var(--u) * var(--y));
     }
+    /* Small per-block offsets create a loosely assembled, irregular cube cluster. */
+    .cube-scene .cube > div:nth-child(1) span:nth-child(2) { left: calc(-5 * var(--u)); }
+    .cube-scene .cube > div:nth-child(2) span:nth-child(1) { top: calc(4 * var(--u)); }
+    .cube-scene .cube > div:nth-child(2) span:nth-child(3) { left: calc(6 * var(--u)); }
+    .cube-scene .cube > div:nth-child(3) span:nth-child(2) { top: calc(-5 * var(--u)); }
+    .cube-scene .cube > div:nth-child(3) span:nth-child(3) { left: calc(-4 * var(--u)); }
+
     .cube-scene span {
       position: relative;
       display: inline-block;
