@@ -140,80 +140,78 @@
       will-change: transform;
       filter: drop-shadow(0 calc(22 * var(--u)) calc(24 * var(--u)) rgba(0,0,0,.28));
     }
-    .cube-scene .cube {
+    /* ── Connected Jenga-inspired block sculpture ── */
+    .cube-scene {
       position: absolute;
-      left: 50%;
-      top: 50%;
-      z-index: 2;
-      transform: translate(-50%, -50%);
+      left: clamp(24px, 5vw, 76px);
+      top: calc(50% + 20px - 76 * var(--u));
+      --u: var(--u-fluid);
+      width: calc(360 * var(--u));
+      height: calc(300 * var(--u));
+      pointer-events: auto;
+      z-index: 0;
+      transform: translateY(-50%) skewY(-20deg);
+      transform-origin: center center;
+      transform-style: preserve-3d;
+      animation: none;
+      transition: transform 180ms ease-out;
+      will-change: transform;
+      filter: drop-shadow(0 calc(22 * var(--u)) calc(24 * var(--u)) rgba(0,0,0,.28));
+    }
+    .cube-scene .jenga-block {
+      position: absolute;
+      left: calc(50% + var(--x) * 50 * var(--u));
+      top: calc(50% + var(--y) * 50 * var(--u));
+      width: calc(var(--length) * 50 * var(--u));
+      height: calc(50 * var(--u));
+      transform: translate(-50%, -50%) rotate(var(--turn, 0deg));
+      transform-origin: center;
+      background: #96999d;
+      z-index: var(--layer, 1);
+      cursor: pointer;
+      transition: background .18s;
       transform-style: preserve-3d;
     }
-    .cube-scene .cube:nth-child(2) {
-      z-index: 1;
-      translate: calc(-60 * var(--u)) calc(-60 * var(--u));
-    }
-    .cube-scene .cube:nth-child(3) {
-      z-index: 3;
-      translate: calc(60 * var(--u)) calc(60 * var(--u));
-    }
-
-    /* Each individual block bounces briefly when clicked or tapped. */
-    .cube-scene span.is-bouncing {
-      animation: cube-block-bounce 420ms cubic-bezier(.2,.8,.3,1);
-    }
-    @keyframes cube-block-bounce {
-      0%, 100% { transform: translateY(0) scale(1); }
-      35% { transform: translateY(calc(-9 * var(--u))) scale(1.06); }
-      65% { transform: translateY(calc(2 * var(--u))) scale(.98); }
-    }
-    .cube-scene .cube > div {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      gap: calc(30 * var(--u));
-      translate: calc(-70 * var(--u) * var(--x)) calc(-60 * var(--u) * var(--y));
-    }
-    .cube-scene span {
-      position: relative;
-      display: inline-block;
-      width: calc(50 * var(--u));
-      height: calc(50 * var(--u));
-      flex: 0 0 calc(50 * var(--u));
-      background: #96999d; /* front face (was #c5c9cf) */
-      z-index: calc(1 * var(--i));
-      transition: background 0.18s;
-    }
-    .cube-scene span::before,
-    .cube-scene span::after {
+    .cube-scene .jenga-block::before,
+    .cube-scene .jenga-block::after {
       content: "";
       position: absolute;
-      transition: background 0.18s;
+      transition: background .18s;
     }
-    .cube-scene span::before {
+    .cube-scene .jenga-block::before {
       left: calc(-40 * var(--u));
-      width: calc(40 * var(--u) + .75px); /* .75px overlap hides anti-aliasing seams at fractional scales */
+      top: 0;
+      width: calc(40 * var(--u) + .75px);
       height: 100%;
-      background: #848990; /* side face (was #aeb4bd) */
+      background: #848990;
       transform-origin: right;
       transform: skewY(45deg);
     }
-    .cube-scene span::after {
+    .cube-scene .jenga-block::after {
       top: calc(-40 * var(--u));
       left: 0;
       width: 100%;
       height: calc(40 * var(--u) + .75px);
-      background: #a4a7ac; /* top face (was #d8dce2) */
+      background: #a4a7ac;
       transform-origin: bottom;
       transform: skewX(45deg);
     }
-    .cube-scene span:hover {
-      transition: background 0s;
+    .cube-scene .jenga-block:hover,
+    .cube-scene .jenga-block:hover::before,
+    .cube-scene .jenga-block:hover::after,
+    .cube-scene .jenga-block:active,
+    .cube-scene .jenga-block:active::before,
+    .cube-scene .jenga-block:active::after {
       background: #252a30;
+      transition: background 0s;
     }
-    .cube-scene span:hover::before,
-    .cube-scene span:hover::after {
-      transition: background 0s;
-      background: #252a30;
+    .cube-scene .jenga-block.is-bouncing {
+      animation: jenga-block-bounce 420ms cubic-bezier(.2,.8,.3,1);
+    }
+    @keyframes jenga-block-bounce {
+      0%, 100% { transform: translate(-50%, -50%) rotate(var(--turn, 0deg)) scale(1); }
+      35% { transform: translate(-50%, calc(-50% - 9 * var(--u))) rotate(var(--turn, 0deg)) scale(1.04); }
+      65% { transform: translate(-50%, calc(-50% + 2 * var(--u))) rotate(var(--turn, 0deg)) scale(.99); }
     }
     :focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
     .skip-link {
@@ -718,21 +716,20 @@
   <!-- Hero -->
   <section class="hero">
 <div class="cube-scene" role="presentation" aria-hidden="true">
-      <div class="cube">
-        <div style="--x:-1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-        <div style="--x:0;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-        <div style="--x:1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-      </div>
-      <div class="cube">
-        <div style="--x:-1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-        <div style="--x:0;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-        <div style="--x:1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-      </div>
-      <div class="cube">
-        <div style="--x:-1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-        <div style="--x:0;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-        <div style="--x:1;--y:0;"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-      </div>
+      <div class="jenga-block" style="--x:-1;--y:-1;--length:3;--turn:0deg;--layer:1;"></div>
+      <div class="jenga-block" style="--x:0;--y:-1;--length:3;--turn:90deg;--layer:1;"></div>
+      <div class="jenga-block" style="--x:1;--y:-1;--length:3;--turn:0deg;--layer:1;"></div>
+      <div class="jenga-block" style="--x:-1;--y:0;--length:3;--turn:90deg;--layer:2;"></div>
+      <div class="jenga-block" style="--x:0;--y:0;--length:3;--turn:0deg;--layer:2;"></div>
+      <div class="jenga-block" style="--x:1;--y:0;--length:3;--turn:90deg;--layer:2;"></div>
+      <div class="jenga-block" style="--x:-1;--y:1;--length:3;--turn:0deg;--layer:3;"></div>
+      <div class="jenga-block" style="--x:0;--y:1;--length:3;--turn:90deg;--layer:3;"></div>
+      <div class="jenga-block" style="--x:1;--y:1;--length:3;--turn:0deg;--layer:3;"></div>
+      <div class="jenga-block" style="--x:-2;--y:-1;--length:2;--turn:0deg;--layer:4;"></div>
+      <div class="jenga-block" style="--x:2;--y:0;--length:2;--turn:90deg;--layer:4;"></div>
+      <div class="jenga-block" style="--x:-2;--y:1;--length:2;--turn:0deg;--layer:4;"></div>
+      <div class="jenga-block" style="--x:1;--y:-2;--length:2;--turn:90deg;--layer:5;"></div>
+      <div class="jenga-block" style="--x:-1;--y:2;--length:2;--turn:0deg;--layer:5;"></div>
     </div>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
       <p class="hero-sub">We build the tools, you build the rest.</p>
@@ -782,8 +779,8 @@
       nav.classList.toggle('scrolled', window.scrollY > 30);
     }, { passive: true });
 
-    // Bounce only the individual cube block that was clicked or tapped.
-    document.querySelectorAll('.cube-scene span').forEach(block => {
+    // Bounce only the individual interlocking block that was clicked or tapped.
+    document.querySelectorAll('.cube-scene .jenga-block').forEach(block => {
       block.addEventListener('click', () => {
         block.classList.remove('is-bouncing');
         void block.offsetWidth;
