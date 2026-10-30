@@ -117,15 +117,16 @@
     }
     .block-composition {
       position: absolute;
-      left: -3%;
+      left: -1%;
       top: 50%;
       display: block;
-      width: min(58vw, 620px);
+      width: min(64vw, 760px);
       height: auto;
       overflow: visible;
       transform: translateY(-50%);
       pointer-events: none;
       z-index: 0;
+      opacity: 0.98;
     }
     .cube-group polygon {
       stroke: rgba(255,255,255,0.48);
@@ -395,7 +396,7 @@
 
     @media (min-width: 561px) and (max-width: 860px) {
       .hero { padding-left: 24px; padding-right: 32px; }
-      .block-composition { left: -115px; width: 58vw; opacity: 0.68; transform: translateY(-50%); }
+      .block-composition { left: -150px; width: 68vw; opacity: 0.78; transform: translateY(-50%); }
       .hero-content { width: 54%; }
     }
 
@@ -407,7 +408,7 @@
       .hero { padding: 100px 16px 60px; }
       .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
       .hero { min-height: 100svh; flex-direction: column; justify-content: center; text-align: center; padding: 210px 18px 64px; }
-      .block-composition { top: 4%; left: -105px; width: 390px; height: auto; transform: none; opacity: 0.58; }
+      .block-composition { top: 5%; left: -112px; width: 430px; height: auto; transform: none; opacity: 0.52; }
       .hero-content { width: 100%; margin: 0; align-items: center; }
       .hero-title { max-width: 100%; }
       .hero-sub { margin-left: auto; margin-right: auto; }
@@ -433,43 +434,50 @@
 
   <!-- Hero -->
   <section class="hero">
-    <svg class="block-composition" viewBox="0 0 500 500" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <svg class="block-composition" viewBox="0 0 640 560" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#ffffff"/>
-          <stop offset="0.58" stop-color="#e8ebef"/>
-          <stop offset="1" stop-color="#cbd1d9"/>
+          <stop offset="1" stop-color="#cbd2da"/>
         </linearGradient>
         <linearGradient id="cubeLeft" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#e4e8ed"/>
-          <stop offset="1" stop-color="#aeb7c3"/>
+          <stop offset="0" stop-color="#dce2e9"/>
+          <stop offset="1" stop-color="#8995a3"/>
         </linearGradient>
         <linearGradient id="cubeRight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#aeb7c3"/>
-          <stop offset="1" stop-color="#737e8c"/>
+          <stop offset="0" stop-color="#aeb9c6"/>
+          <stop offset="1" stop-color="#566372"/>
         </linearGradient>
+        <linearGradient id="cubeAccent" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#e1e8e4"/>
+          <stop offset="1" stop-color="#849b91"/>
+        </linearGradient>
+        <filter id="cubeShadow" x="-40%" y="-40%" width="180%" height="190%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="13"/>
+          <feOffset dx="8" dy="20" result="offset"/>
+          <feComponentTransfer><feFuncA type="linear" slope="0.32"/></feComponentTransfer>
+          <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <g id="isoCube">
+          <polygon class="cube-left" points="0,58 100,116 100,232 0,174"/>
+          <polygon class="cube-right" points="200,58 100,116 100,232 200,174"/>
+          <polygon class="cube-top" points="100,0 200,58 100,116 0,58"/>
+        </g>
+        <g id="accentCube">
+          <polygon fill="#9eafa7" points="0,58 100,116 100,232 0,174"/>
+          <polygon fill="#667f74" points="200,58 100,116 100,232 200,174"/>
+          <polygon fill="url(#cubeAccent)" points="100,0 200,58 100,116 0,58"/>
+        </g>
       </defs>
-      <!-- All three independently sized cubes remain inside one scalable group. -->
-      <g class="cube-group" filter="drop-shadow(12px 22px 18px rgba(0,0,0,0.42))">
-        <!-- Large base cube: 112px vertical edge -->
-        <g class="cube cube--large">
-          <polygon class="cube-left" points="58,340 155,394 155,506 58,452"/>
-          <polygon class="cube-right" points="252,340 155,394 155,506 252,452"/>
-          <polygon class="cube-top" points="155,286 252,340 155,394 58,340"/>
-        </g>
-        <!-- Small middle cube: 68px vertical edge, shifted right -->
-        <g class="cube cube--small">
-          <polygon class="cube-left" points="174,210 233,244 233,312 174,278"/>
-          <polygon class="cube-right" points="292,210 233,244 233,312 292,278"/>
-          <polygon class="cube-top" points="233,176 292,210 233,244 174,210"/>
-        </g>
-        <!-- Medium top cube: 88px vertical edge, shifted left -->
-        <g class="cube cube--medium">
-          <polygon class="cube-left" points="72,92 148,136 148,224 72,180"/>
-          <polygon class="cube-right" points="224,92 148,136 148,224 224,180"/>
-          <polygon class="cube-top" points="148,48 224,92 148,136 72,92"/>
-        </g>
+      <g class="cube-group" filter="url(#cubeShadow)" stroke="rgba(255,255,255,0.58)" stroke-width="1.5" stroke-linejoin="round">
+        <!-- One sculptural composition: varied scale, height and spacing. -->
+        <use href="#isoCube" transform="translate(74 278) scale(1.02)"/>
+        <use href="#isoCube" transform="translate(318 146) scale(.68)"/>
+        <use href="#accentCube" transform="translate(408 324) scale(.48)"/>
+        <use href="#isoCube" transform="translate(76 74) scale(.48)"/>
       </g>
+      <path d="M42 490 C190 520 390 500 552 438" fill="none" stroke="rgba(196,201,209,.18)" stroke-width="1" stroke-dasharray="3 9"/>
+      <circle cx="554" cy="437" r="3" fill="#c4c9d1" opacity=".6"/>
     </svg>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
       <p class="hero-sub">We build the tools, you build the rest.</p>
