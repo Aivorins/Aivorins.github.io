@@ -449,32 +449,28 @@
           <stop offset="1" stop-color="#737e8c"/>
         </linearGradient>
       </defs>
-
-      <!-- One parent group keeps the complete composition together. -->
+      <!-- All three independently sized cubes remain inside one scalable group. -->
       <g class="cube-group" filter="drop-shadow(12px 22px 18px rgba(0,0,0,0.42))">
-        <!-- Bottom cube -->
-        <g class="cube">
-          <polygon class="cube-left" points="79,340 155,382 155,470 79,428"/>
-          <polygon class="cube-right" points="231,340 155,382 155,470 231,428"/>
-          <polygon class="cube-top" points="155,298 231,340 155,382 79,340"/>
+        <!-- Large base cube: 112px vertical edge -->
+        <g class="cube cube--large">
+          <polygon class="cube-left" points="58,340 155,394 155,506 58,452"/>
+          <polygon class="cube-right" points="252,340 155,394 155,506 252,452"/>
+          <polygon class="cube-top" points="155,286 252,340 155,394 58,340"/>
         </g>
-
-        <!-- Middle cube: shifted right -->
-        <g class="cube">
-          <polygon class="cube-left" points="149,210 225,252 225,340 149,298"/>
-          <polygon class="cube-right" points="301,210 225,252 225,340 301,298"/>
-          <polygon class="cube-top" points="225,168 301,210 225,252 149,210"/>
+        <!-- Small middle cube: 68px vertical edge, shifted right -->
+        <g class="cube cube--small">
+          <polygon class="cube-left" points="174,210 233,244 233,312 174,278"/>
+          <polygon class="cube-right" points="292,210 233,244 233,312 292,278"/>
+          <polygon class="cube-top" points="233,176 292,210 233,244 174,210"/>
         </g>
-
-        <!-- Top cube: shifted back left -->
-        <g class="cube">
-          <polygon class="cube-left" points="104,80 180,122 180,210 104,168"/>
-          <polygon class="cube-right" points="256,80 180,122 180,210 256,168"/>
-          <polygon class="cube-top" points="180,38 256,80 180,122 104,80"/>
+        <!-- Medium top cube: 88px vertical edge, shifted left -->
+        <g class="cube cube--medium">
+          <polygon class="cube-left" points="72,92 148,136 148,224 72,180"/>
+          <polygon class="cube-right" points="224,92 148,136 148,224 224,180"/>
+          <polygon class="cube-top" points="148,48 224,92 148,136 72,92"/>
         </g>
       </g>
-    </svg>
-    <div class="hero-content">
+    </svg>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
       <p class="hero-sub">We build the tools, you build the rest.</p>
       <div class="hero-cta">
