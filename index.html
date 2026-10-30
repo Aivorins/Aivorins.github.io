@@ -127,14 +127,10 @@
       transform: translateY(-50%) skewY(-20deg) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
       transform-origin: center center;
       transform-style: preserve-3d;
-      animation: cube-hue 5s linear infinite;
+      animation: none;
       transition: transform 180ms ease-out;
       will-change: transform;
       filter: drop-shadow(0 22px 24px rgba(0,0,0,.28));
-    }
-    @keyframes cube-hue {
-      0% { filter: hue-rotate(0deg) drop-shadow(0 22px 24px rgba(0,0,0,.28)); }
-      100% { filter: hue-rotate(360deg) drop-shadow(0 22px 24px rgba(0,0,0,.28)); }
     }
     .cube-scene .cube {
       position: absolute;
@@ -165,21 +161,21 @@
       width: 50px;
       height: 50px;
       flex: 0 0 50px;
-      background: #b8bdc5;
+      background: #c5c9cf;
       z-index: calc(1 * var(--i));
-      transition: background 1.5s, filter 1.5s;
+      transition: background 0.18s;
     }
     .cube-scene span::before,
     .cube-scene span::after {
       content: "";
       position: absolute;
-      transition: background 1.5s, filter 1.5s;
+      transition: background 0.18s;
     }
     .cube-scene span::before {
       left: -40px;
       width: 40px;
       height: 100%;
-      background: #a5abb4;
+      background: #aeb4bd;
       transform-origin: right;
       transform: skewY(45deg);
     }
@@ -188,20 +184,18 @@
       left: 0;
       width: 100%;
       height: 40px;
-      background: #c9ced5;
+      background: #d8dce2;
       transform-origin: bottom;
       transform: skewX(45deg);
     }
     .cube-scene span:hover {
-      transition: background 0s, filter 0s;
-      background: #242a30;
-      filter: drop-shadow(0 0 22px rgba(20,25,30,.9));
+      transition: background 0s;
+      background: #252a30;
     }
     .cube-scene span:hover::before,
     .cube-scene span:hover::after {
-      transition: background 0s, filter 0s;
-      background: #171c21;
-      filter: drop-shadow(0 0 18px rgba(20,25,30,.65));
+      transition: background 0s;
+      background: #252a30;
     }
     @media (prefers-reduced-motion: reduce) {
       .cube-scene { animation: none; transition: none; }
