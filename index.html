@@ -118,11 +118,13 @@
     }
     .cube-scene {
       position: absolute;
-      left: clamp(12px, 4vw, 64px);
+      left: clamp(24px, 5vw, 76px);
       top: 50%;
+      width: 360px;
+      height: 300px;
       pointer-events: auto;
       z-index: 0;
-      transform: translateY(-50%) skewY(-20deg) scale(.76) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      transform: translateY(-50%) skewY(-20deg) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
       transform-origin: center center;
       transform-style: preserve-3d;
       animation: cube-hue 5s linear infinite;
@@ -135,8 +137,11 @@
       100% { filter: hue-rotate(360deg) drop-shadow(0 22px 24px rgba(0,0,0,.28)); }
     }
     .cube-scene .cube {
-      position: relative;
+      position: absolute;
+      left: 50%;
+      top: 50%;
       z-index: 2;
+      transform: translate(-50%, -50%);
       transform-style: preserve-3d;
     }
     .cube-scene .cube:nth-child(2) {
@@ -456,12 +461,9 @@
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* Keep the full cube composition inside the hero at laptop and tablet widths. */
+    /* Reposition the fixed-size composition as the hero's text column changes. */
     @media (min-width: 861px) and (max-width: 1100px) {
-      .cube-scene {
-        left: 8px;
-        transform: translateY(-50%) skewY(-20deg) scale(.62) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-      }
+      .cube-scene { left: 12px; }
       .hero { padding-left: 24px; padding-right: 32px; }
       .hero-content { width: 52%; }
     }
@@ -469,11 +471,11 @@
     @media (min-width: 561px) and (max-width: 860px) {
       .hero { padding: 110px 24px 64px; }
       .cube-scene {
-        left: -54px;
-        transform: translateY(-50%) skewY(-20deg) scale(.48) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+        left: -118px;
+        top: 47%;
         opacity: .82;
       }
-      .hero-content { width: 58%; }
+      .hero-content { width: 60%; }
       .hero-title { font-size: clamp(2.2rem, 6vw, 3.8rem); }
       .hero-sub { max-width: 340px; }
     }
@@ -487,11 +489,11 @@
       .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
       .hero { min-height: 100svh; flex-direction: column; justify-content: center; text-align: center; padding: 190px 18px 56px; }
       .cube-scene {
-        top: 18px;
+        top: 8px;
         left: 50%;
-        transform: translateX(-50%) skewY(-20deg) scale(.42);
+        transform: translateX(-50%) skewY(-20deg);
         transform-origin: top center;
-        opacity: .52;
+        opacity: .42;
       }
       .hero-content { width: 100%; margin: 0; align-items: center; }
       .hero-title { max-width: 100%; }
@@ -504,14 +506,17 @@
 
     @media (max-width: 380px) {
       .hero { padding-top: 166px; }
-      .cube-scene { transform: translateX(-50%) skewY(-20deg) scale(.34); }
+      .cube-scene {
+        top: 0;
+        transform: translateX(-50%) skewY(-20deg) scale(.88);
+      }
       .hero-title { font-size: clamp(1.9rem, 10vw, 2.5rem); }
     }
 
     /* Short landscape phones: reduce the decorative cube so the message stays visible. */
     @media (max-width: 860px) and (max-height: 560px) {
       .hero { min-height: 620px; }
-      .cube-scene { top: 12px; }
+      .cube-scene { top: 8px; }
     }
   </style>
 </head>
