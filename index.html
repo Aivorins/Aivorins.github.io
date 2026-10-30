@@ -106,6 +106,44 @@
       overflow: hidden;
     }
 
+
+    /* ── Brushed-metal geometric composition ── */
+    .metal-composition {
+      position: absolute; top: 9%; right: clamp(24px, 10vw, 150px);
+      width: 340px; height: 290px; pointer-events: none; z-index: 0;
+      opacity: 0.78; perspective: 900px;
+    }
+    .metal-block {
+      position: absolute; border: 1px solid rgba(226,231,238,0.28);
+      background: repeating-linear-gradient(102deg, rgba(255,255,255,0.075) 0 1px, rgba(0,0,0,0.045) 1px 3px, transparent 3px 5px), linear-gradient(145deg, #aeb4bd 0%, #5c626c 22%, #292d34 52%, #777e88 76%, #343941 100%);
+      box-shadow: 18px 22px 42px rgba(0,0,0,0.42), inset 1px 1px 1px rgba(255,255,255,0.35), inset -2px -3px 8px rgba(0,0,0,0.45);
+      transform-style: preserve-3d;
+    }
+    .metal-block::before, .metal-block::after { content: ""; position: absolute; display: block; border: 1px solid rgba(218,224,232,0.16); }
+    .metal-block::before {
+      left: 0; top: -22px; width: 100%; height: 22px; transform: skewX(-42deg); transform-origin: bottom left;
+      background: repeating-linear-gradient(100deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 4px), linear-gradient(100deg, #c1c6ce, #666d77 60%, #343941);
+    }
+    .metal-block::after {
+      top: 0; right: -22px; width: 22px; height: 100%; transform: skewY(-48deg); transform-origin: top left;
+      background: repeating-linear-gradient(10deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 4px), linear-gradient(90deg, #4d535d, #202329);
+    }
+    .metal-block.block-main { width: 132px; height: 112px; left: 112px; top: 92px; transform: rotate(-13deg) skewY(5deg); }
+    .metal-block.block-upper {
+      width: 82px; height: 72px; left: 40px; top: 30px; transform: rotate(12deg) skewY(-5deg);
+      background: repeating-linear-gradient(100deg, rgba(255,255,255,0.065) 0 1px, transparent 1px 4px), linear-gradient(145deg, #858c96, #30343b 65%, #686f79);
+    }
+    .metal-block.block-lower {
+      width: 76px; height: 66px; left: 216px; top: 205px; transform: rotate(18deg) skewY(-7deg);
+      background: repeating-linear-gradient(100deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 4px), linear-gradient(145deg, #777e88, #252930 60%, #555c66);
+    }
+    .metal-block.block-side { width: 54px; height: 48px; left: 245px; top: 42px; transform: rotate(-20deg) skewY(6deg); opacity: 0.78; }
+    .metal-composition::after {
+      content: ""; position: absolute; inset: 8% 0 0 5%;
+      background: radial-gradient(ellipse, rgba(194,201,211,0.13), transparent 68%);
+      filter: blur(22px); z-index: -1;
+    }
+
     /* ── Hero text ── */
     .hero-tag {
       font-family: var(--mono);
@@ -352,6 +390,8 @@
       .nav-links .nav-link:not(.cta) { display: none; }
       .hero { padding: 100px 16px 60px; }
       .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
+      .metal-composition { top: 8%; right: -88px; transform: scale(0.72); transform-origin: top right; opacity: 0.48; }
+      .hero-title, .hero-sub, .hero-cta { position: relative; z-index: 1; }
       .hologram { font-size: 5px; }
       .ext-cards { flex-direction: column; align-items: center; }
       .ext-card { max-width: 100%; }
@@ -373,6 +413,12 @@
 
   <!-- Hero -->
   <section class="hero">
+    <div class="metal-composition" aria-hidden="true">
+      <div class="metal-block block-upper"></div>
+      <div class="metal-block block-main"></div>
+      <div class="metal-block block-lower"></div>
+      <div class="metal-block block-side"></div>
+    </div>
     <h1 class="hero-title">Aivorin</h1>
     <p class="hero-sub">We build the tools, you build the rest.</p>
     <div class="hero-cta">
