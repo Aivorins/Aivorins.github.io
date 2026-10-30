@@ -449,12 +449,11 @@
           <stop offset="0" stop-color="#dce7e0"/><stop offset="1" stop-color="#82998d"/>
         </linearGradient>
         <filter id="floatShadow" x="-60%" y="-60%" width="220%" height="240%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
-          <feOffset dx="7" dy="16" result="shadow"/>
-          <feComponentTransfer><feFuncA type="linear" slope=".34"/></feComponentTransfer>
+          <feGaussianBlur in="SourceAlpha" stdDeviation="9"/>
+          <feOffset dx="6" dy="13" result="shadow"/>
+          <feComponentTransfer><feFuncA type="linear" slope=".30"/></feComponentTransfer>
           <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
-        <!-- Reusable isometric cube: three rhombus faces, equal edge lengths. -->
         <g id="block">
           <polygon class="cube-left" points="0,44 76,88 76,176 0,132"/>
           <polygon class="cube-right" points="152,44 76,88 76,176 152,132"/>
@@ -467,21 +466,22 @@
         </g>
       </defs>
       <g class="cube-group" filter="url(#floatShadow)" stroke="rgba(255,255,255,.56)" stroke-width="1.35" stroke-linejoin="round">
-        <!-- Loose, suspended cluster: deliberately separated, not stacked. -->
-        <use href="#block" transform="translate(74 286) scale(1.02)"/>
-        <use href="#block" transform="translate(302 202) scale(.72)"/>
-        <use href="#sageBlock" transform="translate(470 316) scale(.57)"/>
-        <use href="#block" transform="translate(154 82) scale(.58)"/>
-        <use href="#block" transform="translate(432 54) scale(.38)"/>
-        <use href="#sageBlock" transform="translate(34 188) scale(.30)"/>
-        <use href="#block" transform="translate(566 208) scale(.28)"/>
+        <!-- Interlocking core: blocks share full edges and stack into one mass. -->
+        <use href="#block" transform="translate(200 180)"/>
+        <use href="#sageBlock" transform="translate(276 224)"/>
+        <use href="#block" transform="translate(124 224)"/>
+        <use href="#block" transform="translate(200 92)"/>
+        <use href="#block" transform="translate(352 268)"/>
+        <!-- Smaller attached pieces make the silhouette less uniform. -->
+        <use href="#sageBlock" transform="translate(428 312) scale(.58)"/>
+        <use href="#block" transform="translate(48 268) scale(.58)"/>
       </g>
       <g fill="none" stroke="rgba(196,201,209,.22)" stroke-width="1">
-        <path d="M34 468 C160 512 354 510 534 450" stroke-dasharray="2 10"/>
-        <path d="M120 40 L120 22 M110 31 L130 31" opacity=".55"/>
+        <path d="M54 488 C180 526 380 518 566 462" stroke-dasharray="2 10"/>
+        <path d="M116 64 L116 46 M106 55 L126 55" opacity=".55"/>
       </g>
       <g fill="#c4c9d1" opacity=".65">
-        <circle cx="540" cy="450" r="2.8"/><circle cx="278" cy="142" r="2"/>
+        <circle cx="566" cy="462" r="2.8"/><circle cx="116" cy="46" r="2"/>
         <circle cx="614" cy="112" r="2.2"/><circle cx="38" cy="112" r="1.8"/>
       </g>
     </svg>    <div class="hero-content">
