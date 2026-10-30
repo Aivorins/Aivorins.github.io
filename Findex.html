@@ -1173,38 +1173,42 @@ nav#nav .nav-link.nav-support {
 
 
     
-    /* Homepage-matched background and card-light cleanup */
-    /* Keep the global ambient lighting identical to the homepage. */
+    /* Homepage-matched ambient background; no exterior card lighting. */
     body {
-      background: radial-gradient(ellipse at 100% 0%, rgba(220,224,231,0.24) 0%, rgba(220,224,231,0.08) 22%, transparent 48%), radial-gradient(ellipse at 0% 100%, rgba(58,63,72,0.82) 0%, rgba(40,44,52,0.38) 30%, transparent 58%), var(--bg) !important;
+      background: radial-gradient(ellipse at 100% 0%, rgba(220,224,231,0.24) 0%, rgba(220,224,231,0.08) 22%, transparent 48%), radial-gradient(ellipse at 0% 100%, rgba(58,63,72,0.82) 0%, rgba(40,44,52,0.38) 30%, transparent 58%), #101114 !important;
+      background-color: #101114 !important;
     }
-    /* Remove decorative light pools that sit behind individual page sections. */
+    /* The homepage's light comes from the page background, not individual sections. */
     .hero::before, .cta::before {
       background: none !important;
       filter: none !important;
       opacity: 0 !important;
+      box-shadow: none !important;
     }
     .cta {
       background: rgba(255,255,255,0.012) !important;
     }
-    /* Cards and mockups keep their surfaces and borders, but no exterior glow/drop shadow. */
-    main .app-mockup,
-    main .popup-mockup,
+    /* Remove only exterior shadows/glows from cards and panels; retain their surfaces and borders. */
     main [class*="card"],
     main [class*="panel"],
-    main [class*="mockup"],
     main .privacy-strip,
     main .step,
     main .faq-item,
-    main .ext-row {
+    main .ext-row,
+    .hero-right .app-mockup,
+    .hero-right .popup-mockup {
       box-shadow: none !important;
       filter: none !important;
     }
+    /* Keep the mockup's subtle inner top-edge definition, without a cast shadow. */
+    .hero-right .app-mockup,
+    .hero-right .popup-mockup {
+      box-shadow: inset 0 1px rgba(255,255,255,0.08) !important;
+    }
     .hero-right:hover .app-mockup,
     .hero-right:hover .popup-mockup {
-      box-shadow: none !important;
+      box-shadow: inset 0 1px rgba(255,255,255,0.1) !important;
     }
-  
   </style>
 </head>
 <body>
