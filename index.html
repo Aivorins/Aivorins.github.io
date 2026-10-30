@@ -150,11 +150,11 @@
     }
     .cube-scene .cube:nth-child(2) {
       z-index: 1;
-      translate: calc(-60 * var(--u)) calc(-60 * var(--u));
+      translate: calc(-50 * var(--u)) calc(-50 * var(--u));
     }
     .cube-scene .cube:nth-child(3) {
       z-index: 3;
-      translate: calc(60 * var(--u)) calc(60 * var(--u));
+      translate: calc(50 * var(--u)) calc(50 * var(--u));
     }
 
     /* Each individual block bounces briefly when clicked or tapped. */
@@ -170,8 +170,8 @@
       position: absolute;
       display: flex;
       flex-direction: column;
-      gap: calc(4 * var(--u));
-      translate: calc(-54 * var(--u) * var(--x)) calc(-60 * var(--u) * var(--y));
+      gap: 0;
+      translate: calc(-50 * var(--u) * var(--x)) calc(-60 * var(--u) * var(--y));
     }
     /* Small per-block offsets create a loosely assembled, irregular cube cluster. */
     .cube-scene .cube > div:nth-child(1) span:nth-child(2) { left: calc(-5 * var(--u)); }
