@@ -246,6 +246,17 @@
       opacity: 0;
       animation: up 0.9s 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
     }
+    .hero-description {
+      max-width: 480px;
+      margin-top: -18px;
+      margin-bottom: 32px;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      line-height: 1.8;
+      opacity: 0;
+      animation: up 0.9s 0.56s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .hero-description p + p { margin-top: 12px; }
     .hero-cta {
       display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
       opacity: 0;
@@ -472,6 +483,7 @@
       .hero-content { width: 54%; }
       .hero-title { font-size: clamp(2.2rem, 6vw, 3.8rem); }
       .hero-sub { max-width: 340px; }
+      .hero-description { max-width: 360px; }
     }
 
     @media (max-width: 860px) {
@@ -492,6 +504,7 @@
       .hero-content { width: 100%; margin: 0; align-items: center; }
       .hero-title { max-width: 100%; }
       .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-description { margin-left: auto; margin-right: auto; }
       .hero-cta { justify-content: center; }
       .hologram { font-size: 5px; }
       .ext-cards { flex-direction: column; align-items: center; }
@@ -576,6 +589,7 @@
       }
       .hero-title { font-size: clamp(2rem, 5vw, 3rem); }
       .hero-sub { max-width: 300px; }
+      .hero-description { max-width: 320px; }
     }
 
     @media (max-width: 560px) and (max-height: 560px) and (orientation: landscape) {
@@ -596,6 +610,7 @@
       .hero-content { width: 52%; margin-left: auto; align-items: flex-end; }
       .hero-title { font-size: clamp(1.8rem, 5vw, 2.6rem); }
       .hero-sub { font-size: .84rem; max-width: 260px; margin-bottom: 22px; }
+      .hero-description { max-width: 260px; font-size: .76rem; margin-bottom: 18px; }
       .hero-cta { justify-content: flex-end; }
     }
   </style>
@@ -606,7 +621,7 @@
   <nav id="nav">
     <a class="nav-brand" href="index.html"><img src="aivorinlogonew.png" alt="Aivorin" style="width:36px;height:36px;border-radius:50%;margin-right:10px;vertical-align:middle;" /><span style="color:var(--sage);font-style:italic;">Ai</span><span style="color:var(--ink);">vorin</span></a>
     <div class="nav-links">
-      <a href="#about" class="nav-link">About</a>
+      <a href="#philosophy" class="nav-link">Philosophy</a>
       <a href="extensions.html" class="nav-link nav-tab">Extensions</a>
       <a href="apps.html" class="nav-link nav-tab">Apps</a>
       <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="nav-link nav-tab">Support Aivorin</a>
@@ -634,41 +649,16 @@
     </div>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
       <p class="hero-sub">We build the tools, you build the rest.</p>
-      <div class="hero-cta">
-      <a href="#about" class="btn-primary">
-        Our philosophy
-        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section class="about" id="about">
-    <div class="reveal">
-      <p class="about-label">ABOUT AIVORIN</p>
-      <h2 class="about-title">An independent studio.<br/><em>A clear purpose.</em></h2>
-      <div class="about-body">
+      <div class="hero-description">
         <p>Aivorin is an independent studio creating focused digital tools across different domains. No venture funding, no growth metrics, no dark patterns.</p>
         <p>Every product is built to do one thing — and do it well. Software should be honest about what it does and invisible when it doesn't need attention.</p>
         <p>Simple tools. No unnecessary tracking. No dark patterns. Just software that works.</p>
       </div>
-    </div>
-    <div class="about-values reveal" style="transition-delay:0.15s">
-      <div class="value-item">
-        <div class="value-tag">PRINCIPLE 01</div>
-        <div class="value-title">Honest software.</div>
-        <div class="value-body">Nothing hidden. Every product does exactly what it says — and never quietly more.</div>
-      </div>
-      <div class="value-item">
-        <div class="value-tag">PRINCIPLE 02</div>
-        <div class="value-title">Independent. Always.</div>
-        <div class="value-body">No investors, no boardroom, no agenda. Just a studio that builds what it believes in.</div>
-      </div>
-      <div class="value-item">
-        <div class="value-tag">PRINCIPLE 03</div>
-        <div class="value-title">One product, one purpose.</div>
-        <div class="value-body">No feature bloat. Each product solves a single problem and then gets out of the way.</div>
+      <div class="hero-cta">
+      <a href="#philosophy" class="btn-primary">
+        Our philosophy
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
       </div>
     </div>
   </section>
