@@ -434,50 +434,56 @@
 
   <!-- Hero -->
   <section class="hero">
-    <svg class="block-composition" viewBox="0 0 640 560" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <svg class="block-composition" viewBox="0 0 700 560" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#ffffff"/>
-          <stop offset="1" stop-color="#cbd2da"/>
+          <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cbd2da"/>
         </linearGradient>
         <linearGradient id="cubeLeft" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#dce2e9"/>
-          <stop offset="1" stop-color="#8995a3"/>
+          <stop offset="0" stop-color="#e1e6ec"/><stop offset="1" stop-color="#8793a1"/>
         </linearGradient>
         <linearGradient id="cubeRight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#aeb9c6"/>
-          <stop offset="1" stop-color="#566372"/>
+          <stop offset="0" stop-color="#aeb9c6"/><stop offset="1" stop-color="#566372"/>
         </linearGradient>
-        <linearGradient id="cubeAccent" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#e1e8e4"/>
-          <stop offset="1" stop-color="#849b91"/>
+        <linearGradient id="cubeSage" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#dce7e0"/><stop offset="1" stop-color="#82998d"/>
         </linearGradient>
-        <filter id="cubeShadow" x="-40%" y="-40%" width="180%" height="190%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="13"/>
-          <feOffset dx="8" dy="20" result="offset"/>
-          <feComponentTransfer><feFuncA type="linear" slope="0.32"/></feComponentTransfer>
+        <filter id="floatShadow" x="-60%" y="-60%" width="220%" height="240%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+          <feOffset dx="7" dy="16" result="shadow"/>
+          <feComponentTransfer><feFuncA type="linear" slope=".34"/></feComponentTransfer>
           <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
-        <g id="isoCube">
-          <polygon class="cube-left" points="0,58 100,116 100,232 0,174"/>
-          <polygon class="cube-right" points="200,58 100,116 100,232 200,174"/>
-          <polygon class="cube-top" points="100,0 200,58 100,116 0,58"/>
+        <!-- Reusable isometric cube: three rhombus faces, equal edge lengths. -->
+        <g id="block">
+          <polygon class="cube-left" points="0,44 76,88 76,176 0,132"/>
+          <polygon class="cube-right" points="152,44 76,88 76,176 152,132"/>
+          <polygon class="cube-top" points="76,0 152,44 76,88 0,44"/>
         </g>
-        <g id="accentCube">
-          <polygon fill="#9eafa7" points="0,58 100,116 100,232 0,174"/>
-          <polygon fill="#667f74" points="200,58 100,116 100,232 200,174"/>
-          <polygon fill="url(#cubeAccent)" points="100,0 200,58 100,116 0,58"/>
+        <g id="sageBlock">
+          <polygon fill="#b9c9c0" points="0,44 76,88 76,176 0,132"/>
+          <polygon fill="#71877c" points="152,44 76,88 76,176 152,132"/>
+          <polygon fill="url(#cubeSage)" points="76,0 152,44 76,88 0,44"/>
         </g>
       </defs>
-      <g class="cube-group" filter="url(#cubeShadow)" stroke="rgba(255,255,255,0.58)" stroke-width="1.5" stroke-linejoin="round">
-        <!-- One sculptural composition: varied scale, height and spacing. -->
-        <use href="#isoCube" transform="translate(74 278) scale(1.02)"/>
-        <use href="#isoCube" transform="translate(318 146) scale(.68)"/>
-        <use href="#accentCube" transform="translate(408 324) scale(.48)"/>
-        <use href="#isoCube" transform="translate(76 74) scale(.48)"/>
+      <g class="cube-group" filter="url(#floatShadow)" stroke="rgba(255,255,255,.56)" stroke-width="1.35" stroke-linejoin="round">
+        <!-- Loose, suspended cluster: deliberately separated, not stacked. -->
+        <use href="#block" transform="translate(74 286) scale(1.02)"/>
+        <use href="#block" transform="translate(302 202) scale(.72)"/>
+        <use href="#sageBlock" transform="translate(470 316) scale(.57)"/>
+        <use href="#block" transform="translate(154 82) scale(.58)"/>
+        <use href="#block" transform="translate(432 54) scale(.38)"/>
+        <use href="#sageBlock" transform="translate(34 188) scale(.30)"/>
+        <use href="#block" transform="translate(566 208) scale(.28)"/>
       </g>
-      <path d="M42 490 C190 520 390 500 552 438" fill="none" stroke="rgba(196,201,209,.18)" stroke-width="1" stroke-dasharray="3 9"/>
-      <circle cx="554" cy="437" r="3" fill="#c4c9d1" opacity=".6"/>
+      <g fill="none" stroke="rgba(196,201,209,.22)" stroke-width="1">
+        <path d="M34 468 C160 512 354 510 534 450" stroke-dasharray="2 10"/>
+        <path d="M120 40 L120 22 M110 31 L130 31" opacity=".55"/>
+      </g>
+      <g fill="#c4c9d1" opacity=".65">
+        <circle cx="540" cy="450" r="2.8"/><circle cx="278" cy="142" r="2"/>
+        <circle cx="614" cy="112" r="2.2"/><circle cx="38" cy="112" r="1.8"/>
+      </g>
     </svg>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
       <p class="hero-sub">We build the tools, you build the rest.</p>
