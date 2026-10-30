@@ -118,11 +118,12 @@
     }
     .cube-scene {
       position: absolute;
-      left: 8%;
+      left: clamp(12px, 4vw, 64px);
       top: 50%;
       pointer-events: auto;
       z-index: 0;
-      transform: translateY(calc(-50% - 80px)) skewY(-20deg) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      transform: translateY(-50%) skewY(-20deg) scale(.76) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      transform-origin: center center;
       transform-style: preserve-3d;
       animation: cube-hue 5s linear infinite;
       transition: transform 180ms ease-out;
@@ -455,10 +456,26 @@
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    @media (min-width: 561px) and (max-width: 860px) {
+    /* Keep the full cube composition inside the hero at laptop and tablet widths. */
+    @media (min-width: 861px) and (max-width: 1100px) {
+      .cube-scene {
+        left: 8px;
+        transform: translateY(-50%) skewY(-20deg) scale(.62) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      }
       .hero { padding-left: 24px; padding-right: 32px; }
-      .cube-scene { left: -75px; transform: translateY(calc(-50% - 80px)) skewY(-20deg) scale(.82); opacity: .9; }
-      .hero-content { width: 54%; }
+      .hero-content { width: 52%; }
+    }
+
+    @media (min-width: 561px) and (max-width: 860px) {
+      .hero { padding: 110px 24px 64px; }
+      .cube-scene {
+        left: -54px;
+        transform: translateY(-50%) skewY(-20deg) scale(.48) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+        opacity: .82;
+      }
+      .hero-content { width: 58%; }
+      .hero-title { font-size: clamp(2.2rem, 6vw, 3.8rem); }
+      .hero-sub { max-width: 340px; }
     }
 
     @media (max-width: 860px) {
@@ -468,8 +485,14 @@
       .nav-links .nav-link:not(.cta) { display: none; }
       .hero { padding: 100px 16px 60px; }
       .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
-      .hero { min-height: 100svh; flex-direction: column; justify-content: center; text-align: center; padding: 210px 18px 64px; }
-      .cube-scene { top: 2%; left: 50%; transform: translateX(-50%) skewY(-20deg) scale(.66); transform-origin: top center; opacity: .48; }
+      .hero { min-height: 100svh; flex-direction: column; justify-content: center; text-align: center; padding: 190px 18px 56px; }
+      .cube-scene {
+        top: 18px;
+        left: 50%;
+        transform: translateX(-50%) skewY(-20deg) scale(.42);
+        transform-origin: top center;
+        opacity: .52;
+      }
       .hero-content { width: 100%; margin: 0; align-items: center; }
       .hero-title { max-width: 100%; }
       .hero-sub { margin-left: auto; margin-right: auto; }
@@ -477,6 +500,18 @@
       .hologram { font-size: 5px; }
       .ext-cards { flex-direction: column; align-items: center; }
       .ext-card { max-width: 100%; }
+    }
+
+    @media (max-width: 380px) {
+      .hero { padding-top: 166px; }
+      .cube-scene { transform: translateX(-50%) skewY(-20deg) scale(.34); }
+      .hero-title { font-size: clamp(1.9rem, 10vw, 2.5rem); }
+    }
+
+    /* Short landscape phones: reduce the decorative cube so the message stays visible. */
+    @media (max-width: 860px) and (max-height: 560px) {
+      .hero { min-height: 620px; }
+      .cube-scene { top: 12px; }
     }
   </style>
 </head>
