@@ -107,40 +107,52 @@
     }
 
 
-    /* ── Unified isometric cube group ── */
+    /* ── Modular network centerpiece ── */
     .hero {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       text-align: right;
       padding: 120px clamp(24px, 7vw, 110px) 80px;
+      perspective: 1100px;
     }
     .block-composition {
       position: absolute;
-      left: -1%;
+      left: -2%;
       top: 50%;
       display: block;
-      width: min(64vw, 760px);
+      width: min(62vw, 740px);
       height: auto;
       overflow: visible;
-      transform: translateY(-50%);
+      transform: translateY(-50%) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      transform-style: preserve-3d;
+      transform-origin: 50% 50%;
       pointer-events: none;
       z-index: 0;
       opacity: 0.98;
+      transition: transform 180ms ease-out;
+      will-change: transform;
     }
-    .cube-group polygon {
-      stroke: rgba(255,255,255,0.48);
-      stroke-width: 1.4;
+    .network-beams {
+      filter: url(#networkShadow);
+    }
+    .beam-base {
+      fill: none;
+      stroke-linecap: butt;
+      stroke-linejoin: bevel;
+      stroke-width: 30;
+    }
+    .beam-edge {
+      fill: none;
+      stroke: rgba(255,255,255,0.42);
+      stroke-width: 1.5;
+      stroke-linecap: square;
+      stroke-linejoin: bevel;
+    }
+    .network-node {
+      stroke: rgba(255,255,255,0.56);
+      stroke-width: 1.3;
       stroke-linejoin: round;
-    }
-    .cube-top {
-      fill: url(#cubeTop);
-    }
-    .cube-left {
-      fill: url(#cubeLeft);
-    }
-    .cube-right {
-      fill: url(#cubeRight);
     }
     .hero-content {
       position: relative;
@@ -396,7 +408,7 @@
 
     @media (min-width: 561px) and (max-width: 860px) {
       .hero { padding-left: 24px; padding-right: 32px; }
-      .block-composition { left: -150px; width: 68vw; opacity: 0.78; transform: translateY(-50%); }
+      .block-composition { left: -170px; width: 70vw; opacity: 0.82; transform: translateY(-50%); }
       .hero-content { width: 54%; }
     }
 
@@ -436,50 +448,80 @@
   <section class="hero">
     <svg class="block-composition" viewBox="0 0 700 560" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cbd2da"/>
+        <linearGradient id="beamSilver" x1="0" y1="0" x2="0.9" y2="1">
+          <stop offset="0" stop-color="#f2f4f7"/>
+          <stop offset="0.48" stop-color="#aeb8c4"/>
+          <stop offset="1" stop-color="#687583"/>
         </linearGradient>
-        <linearGradient id="cubeLeft" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#e1e6ec"/><stop offset="1" stop-color="#8793a1"/>
+        <linearGradient id="beamDark" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#b9c3ce"/>
+          <stop offset="1" stop-color="#596675"/>
         </linearGradient>
-        <linearGradient id="cubeRight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#aeb9c6"/><stop offset="1" stop-color="#566372"/>
+        <linearGradient id="beamAccent" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#e0e6e3"/>
+          <stop offset="1" stop-color="#82958b"/>
         </linearGradient>
-        <linearGradient id="cubeSage" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#dce7e0"/><stop offset="1" stop-color="#82998d"/>
-        </linearGradient>
-        <filter id="floatShadow" x="-60%" y="-60%" width="220%" height="240%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="9"/>
-          <feOffset dx="6" dy="13" result="shadow"/>
-          <feComponentTransfer><feFuncA type="linear" slope=".30"/></feComponentTransfer>
+        <filter id="networkShadow" x="-35%" y="-35%" width="170%" height="190%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+          <feOffset dx="5" dy="12" result="shadow"/>
+          <feComponentTransfer><feFuncA type="linear" slope=".34"/></feComponentTransfer>
           <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
-        <g id="block">
-          <polygon class="cube-left" points="0,44 76,88 76,176 0,132"/>
-          <polygon class="cube-right" points="152,44 76,88 76,176 152,132"/>
-          <polygon class="cube-top" points="76,0 152,44 76,88 0,44"/>
-        </g>
-        <g id="sageBlock">
-          <polygon fill="#b9c9c0" points="0,44 76,88 76,176 0,132"/>
-          <polygon fill="#71877c" points="152,44 76,88 76,176 152,132"/>
-          <polygon fill="url(#cubeSage)" points="76,0 152,44 76,88 0,44"/>
-        </g>
       </defs>
-      <g class="cube-group" filter="url(#floatShadow)" stroke="rgba(255,255,255,.56)" stroke-width="1.35" stroke-linejoin="round">
-        <!-- Interlocking core: blocks share full edges and stack into one mass. -->
-        <use href="#sageBlock" transform="translate(276 224)"/>
-        <use href="#block" transform="translate(124 224)"/>
-        <use href="#block" transform="translate(200 92)"/>
-        <use href="#block" transform="translate(352 268)"/>
-        <!-- Smaller attached pieces make the silhouette less uniform. -->
+
+      <!-- A single connected framework: long rectangular members meet at shared joints. -->
+      <g class="network-beams">
+        <!-- Rear members -->
+        <g class="beam-base" stroke="url(#beamDark)">
+          <path d="M170 248 L270 190 L370 248 L470 190 L550 236"/>
+          <path d="M270 190 L370 132 L470 190"/>
+          <path d="M370 248 L470 306 L550 260"/>
+        </g>
+        <!-- Main structural members -->
+        <g class="beam-base" stroke="url(#beamSilver)">
+          <path d="M170 248 L270 306 L370 364 L470 306"/>
+          <path d="M270 190 L270 306"/>
+          <path d="M370 248 L370 364"/>
+          <path d="M470 190 L470 306"/>
+          <path d="M370 248 L470 190"/>
+        </g>
+        <!-- One restrained accent member -->
+        <path class="beam-base" stroke="url(#beamAccent)" d="M270 190 L370 248"/>
+        <!-- Fine bevel highlights make the beams read as solid rectangular members. -->
+        <g class="beam-edge">
+          <path d="M170 242 L270 184 L370 242 L470 184 L550 230"/>
+          <path d="M270 184 L370 126 L470 184"/>
+          <path d="M170 242 L270 300 L370 358 L470 300"/>
+          <path d="M264 190 L264 306 M364 248 L364 364 M464 190 L464 306"/>
+        </g>
       </g>
-      <g fill="none" stroke="rgba(196,201,209,.22)" stroke-width="1">
-        <path d="M54 488 C180 526 380 518 566 462" stroke-dasharray="2 10"/>
-        <path d="M116 64 L116 46 M106 55 L126 55" opacity=".55"/>
+
+      <!-- Compact faceted joints unify the intersecting members. -->
+      <g class="network-node">
+        <path fill="#dce2e8" d="M252 178 L270 168 L288 178 L288 200 L270 211 L252 200Z"/>
+        <path fill="#aeb9c5" d="M252 178 L270 189 L270 211 L252 200Z"/>
+        <path fill="#718090" d="M288 178 L270 189 L270 211 L288 200Z"/>
+        <path fill="#e6eaee" d="M352 236 L370 226 L388 236 L388 258 L370 269 L352 258Z"/>
+        <path fill="#b5c0cb" d="M352 236 L370 247 L370 269 L352 258Z"/>
+        <path fill="#748190" d="M388 236 L370 247 L370 269 L388 258Z"/>
+        <path fill="#d5ded9" d="M452 178 L470 168 L488 178 L488 200 L470 211 L452 200Z"/>
+        <path fill="#a8b8ae" d="M452 178 L470 189 L470 211 L452 200Z"/>
+        <path fill="#73877c" d="M488 178 L470 189 L470 211 L488 200Z"/>
+        <path fill="#cbd3dc" d="M352 352 L370 342 L388 352 L388 374 L370 385 L352 374Z"/>
+        <path fill="#aab5c1" d="M352 352 L370 363 L370 385 L352 374Z"/>
+        <path fill="#687685" d="M388 352 L370 363 L370 385 L388 374Z"/>
       </g>
-      <g fill="#c4c9d1" opacity=".65">
-        <circle cx="566" cy="462" r="2.8"/><circle cx="116" cy="46" r="2"/>
-        <circle cx="614" cy="112" r="2.2"/><circle cx="38" cy="112" r="1.8"/>
+
+      <!-- Quiet technical detailing -->
+      <g fill="none" stroke="rgba(196,201,209,.25)" stroke-width="1">
+        <path d="M72 438 C190 482 414 486 592 418" stroke-dasharray="2 10"/>
+        <path d="M112 104 L112 82 M101 93 L123 93" opacity=".6"/>
+      </g>
+      <g fill="#c4c9d1" opacity=".62">
+        <circle cx="592" cy="418" r="2.8"/>
+        <circle cx="112" cy="82" r="2"/>
+        <circle cx="610" cy="126" r="2.2"/>
+        <circle cx="48" cy="142" r="1.8"/>
       </g>
     </svg>    <div class="hero-content">
       <h1 class="hero-title">Aivorin</h1>
@@ -581,6 +623,24 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 30);
     }, { passive: true });
+
+    // Subtle pointer tilt for the modular network (disabled for touch and reduced motion).
+    const composition = document.querySelector('.block-composition');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (composition && !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const hero = composition.closest('.hero');
+      hero.addEventListener('pointermove', (event) => {
+        const bounds = hero.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+        composition.style.setProperty('--tilt-x', (y * -3).toFixed(2) + 'deg');
+        composition.style.setProperty('--tilt-y', (x * 4).toFixed(2) + 'deg');
+      }, { passive: true });
+      hero.addEventListener('pointerleave', () => {
+        composition.style.setProperty('--tilt-x', '0deg');
+        composition.style.setProperty('--tilt-y', '0deg');
+      }, { passive: true });
+    }
 
     // Scroll reveal
     const revealEls = document.querySelectorAll('.reveal');
