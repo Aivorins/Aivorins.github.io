@@ -120,7 +120,7 @@
       left: -3%;
       top: 50%;
       display: block;
-      width: min(58vw, 760px);
+      width: min(58vw, 620px);
       height: auto;
       overflow: visible;
       transform: translateY(-50%);
@@ -407,7 +407,7 @@
       .hero { padding: 100px 16px 60px; }
       .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
       .hero { min-height: 100svh; flex-direction: column; justify-content: center; text-align: center; padding: 210px 18px 64px; }
-      .block-composition { top: 4%; left: -92px; width: 420px; height: auto; transform: none; opacity: 0.58; }
+      .block-composition { top: 4%; left: -105px; width: 390px; height: auto; transform: none; opacity: 0.58; }
       .hero-content { width: 100%; margin: 0; align-items: center; }
       .hero-title { max-width: 100%; }
       .hero-sub { margin-left: auto; margin-right: auto; }
@@ -433,7 +433,7 @@
 
   <!-- Hero -->
   <section class="hero">
-    <svg class="block-composition" viewBox="0 0 500 380" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <svg class="block-composition" viewBox="0 0 500 500" role="presentation" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#ffffff"/>
@@ -449,20 +449,29 @@
           <stop offset="1" stop-color="#737e8c"/>
         </linearGradient>
       </defs>
+
+      <!-- One parent group keeps the complete composition together. -->
       <g class="cube-group" filter="drop-shadow(12px 22px 18px rgba(0,0,0,0.42))">
-        <!-- Left column: one cube high -->
-        <polygon class="cube-top" points="160,105 250,150 160,195 70,150"/>
-        <polygon class="cube-left" points="70,150 160,195 160,285 70,240"/>
-        <polygon class="cube-right" points="250,150 160,195 160,285 250,240"/>
+        <!-- Bottom cube -->
+        <g class="cube">
+          <polygon class="cube-left" points="79,340 155,382 155,470 79,428"/>
+          <polygon class="cube-right" points="231,340 155,382 155,470 231,428"/>
+          <polygon class="cube-top" points="155,298 231,340 155,382 79,340"/>
+        </g>
 
-        <!-- Center column: two cubes high -->
-        <polygon class="cube-top" points="250,60 340,105 250,150 160,105"/>
-        <polygon class="cube-left" points="160,105 250,150 250,285 160,240"/>
-        <polygon class="cube-right" points="340,105 250,150 250,285 340,240"/>
+        <!-- Middle cube: shifted right -->
+        <g class="cube">
+          <polygon class="cube-left" points="149,210 225,252 225,340 149,298"/>
+          <polygon class="cube-right" points="301,210 225,252 225,340 301,298"/>
+          <polygon class="cube-top" points="225,168 301,210 225,252 149,210"/>
+        </g>
 
-        <!-- Right column: three cube levels, stepped upward -->
-        <polygon class="cube-top" points="340,105 430,150 340,195 250,150"/>
-        <polygon class="cube-right" points="430,150 340,195 340,285 430,240"/>
+        <!-- Top cube: shifted back left -->
+        <g class="cube">
+          <polygon class="cube-left" points="104,80 180,122 180,210 104,168"/>
+          <polygon class="cube-right" points="256,80 180,122 180,210 256,168"/>
+          <polygon class="cube-top" points="180,38 256,80 180,122 104,80"/>
+        </g>
       </g>
     </svg>
     <div class="hero-content">
