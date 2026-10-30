@@ -800,7 +800,21 @@ body:has(.ext-bar-wrap) > div[style*="text-align:center"] p:nth-child(2) { max-w
   .reveal { opacity:1!important; transform:none!important; }
 }
 
-  </style>
+  
+/* Final composition tuning */
+.hero:has(.ext-bar-wrap) { text-align:left; }
+.hero:not(:has(.ext-bar-wrap)) {
+  grid-template-columns:minmax(0,1.12fr) minmax(280px,.88fr);
+  gap:clamp(38px,6vw,82px);
+  max-width:1200px;
+  padding-top:clamp(150px,19vh,205px);
+  padding-bottom:clamp(90px,11vw,130px);
+}
+@media(max-width:800px) {
+  .hero:not(:has(.ext-bar-wrap)) { grid-template-columns:1fr; gap:28px; }
+}
+
+</style>
 </head>
 <body>
 
