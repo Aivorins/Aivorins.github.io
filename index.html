@@ -513,10 +513,96 @@
       .hero-title { font-size: clamp(1.9rem, 10vw, 2.5rem); }
     }
 
-    /* Short landscape phones: reduce the decorative cube so the message stays visible. */
-    @media (max-width: 860px) and (max-height: 560px) {
-      .hero { min-height: 620px; }
-      .cube-scene { top: 8px; }
+    /* Responsive hero composition: reserve real space for the cube artwork. */
+    @media (max-width: 560px) and (orientation: portrait) {
+      .hero {
+        min-height: 100svh;
+        height: auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 12px;
+        padding: 104px 18px 64px;
+        overflow: hidden;
+      }
+      .cube-scene {
+        position: relative;
+        inset: auto;
+        flex: 0 0 300px;
+        width: 360px;
+        max-width: none;
+        height: 300px;
+        margin: 0 auto;
+        left: auto;
+        top: auto;
+        opacity: 1;
+        transform: translateX(0) skewY(-20deg);
+        transform-origin: center center;
+      }
+      .hero-content {
+        width: 100%;
+        max-width: 520px;
+        flex: 0 0 auto;
+        margin: 0;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-title { max-width: 100%; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-cta { justify-content: center; }
+    }
+
+    /* Landscape tablets and phones: keep the cube inside the left half,
+       with the copy anchored to the right instead of pushing the cube off-screen. */
+    @media (min-width: 561px) and (max-width: 860px) and (max-height: 560px) {
+      .hero {
+        min-height: 100svh;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 76px 24px 32px;
+      }
+      .cube-scene {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        width: 360px;
+        height: 300px;
+        transform: translateY(-50%) skewY(-20deg);
+        opacity: .9;
+      }
+      .hero-content {
+        width: 52%;
+        max-width: 440px;
+        margin-left: auto;
+        align-items: flex-end;
+        text-align: right;
+      }
+      .hero-title { font-size: clamp(2rem, 5vw, 3rem); }
+      .hero-sub { max-width: 300px; }
+    }
+
+    @media (max-width: 560px) and (max-height: 560px) and (orientation: landscape) {
+      .hero {
+        min-height: 100svh;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 72px 18px 24px;
+      }
+      .cube-scene {
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) scale(.78) skewY(-20deg);
+        transform-origin: left center;
+        opacity: .85;
+      }
+      .hero-content { width: 52%; margin-left: auto; align-items: flex-end; }
+      .hero-title { font-size: clamp(1.8rem, 5vw, 2.6rem); }
+      .hero-sub { font-size: .84rem; max-width: 260px; margin-bottom: 22px; }
+      .hero-cta { justify-content: flex-end; }
     }
   </style>
 </head>
