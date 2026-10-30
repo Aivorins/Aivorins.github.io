@@ -384,8 +384,8 @@ nav.scrolled { background:rgba(16,17,20,.92); backdrop-filter:blur(20px); border
 .nav-link:hover { color:var(--ink-soft); border-color:var(--border); }
 .nav-link.nav-tab { border-color:rgba(196,201,209,.35); background:rgba(196,201,209,.1); color:var(--sage); }
 .nav-link.nav-tab:hover { background:rgba(196,201,209,.2); }
-.nav-link.nav-support { color:var(--sage); border-color:rgba(196,201,209,.25); background:var(--sage-glow); }
-.nav-link.nav-support:hover { background:rgba(196,201,209,.18); color:var(--sage); }
+.nav-link.nav-support { color:var(--sage); border-color:rgba(196,201,209,.35); background:rgba(196,201,209,.1); }
+.nav-link.nav-support:hover { background:rgba(196,201,209,.2); color:var(--sage); }
 footer { margin-top:0; border-color:var(--border); padding:36px clamp(16px,5vw,56px); }
 .footer-brand { display:inline-flex; align-items:center; font-family:var(--serif); font-size:1rem; color:var(--ink-soft); text-decoration:none; }
 .footer-brand img { width:22px!important; height:22px!important; border-radius:50%; margin-right:8px!important; vertical-align:middle; opacity:.7; }
@@ -1020,8 +1020,8 @@ nav#nav .nav-link.nav-support {
   <nav id="nav">
     <a class="nav-brand" href="index.html"><img src="aivorinlogonew.png" alt="Aivorin" /><span class="brand-ai">Ai</span><span class="brand-rest">vorin</span></a>
     <div class="nav-links">
-      <a href="extensions.html" class="nav-link nav-tab">Extensions</a>
-      <a href="apps.html" class="nav-link">Apps</a>
+      <a href="extensions.html" class="nav-link nav-tab nav-tab-active">Extensions</a>
+      <a href="apps.html" class="nav-link nav-tab">Apps</a>
       <a href="https://coindrop.to/aivorin" target="_blank" rel="noopener" class="nav-link nav-support">Support Aivorin</a>
     </div>
   </nav>
@@ -1107,25 +1107,9 @@ nav#nav .nav-link.nav-support {
 </body>
 </html>
 
-/* Give every navbar link the homepage tab's framed treatment, with light kept inside the box. */
-nav#nav .nav-links .nav-link {
-  border:1px solid rgba(196,201,209,.35) !important;
-  background:rgba(196,201,209,.10) !important;
-  color:var(--sage) !important;
-  box-shadow:inset 0 0 14px rgba(196,201,209,.18), inset 0 1px 0 rgba(255,255,255,.14) !important;
-  transition:background .22s ease,color .22s ease,border-color .22s ease,box-shadow .22s ease,transform .22s ease !important;
-}
-nav#nav .nav-links .nav-link:hover,
-nav#nav .nav-links .nav-link:focus-visible {
-  border-color:rgba(220,226,236,.62) !important;
-  background:rgba(196,201,209,.17) !important;
-  color:#f1f2f4 !important;
-  box-shadow:inset 0 0 19px rgba(220,226,236,.27), inset 0 1px 0 rgba(255,255,255,.2) !important;
-}
-nav#nav .nav-links .nav-link.nav-support {
-  color:var(--sage) !important;
-  font-weight:500;
-}
-nav#nav .nav-links .nav-link.nav-support:hover {
-  color:#f1f2f4 !important;
+/* The current section is only a touch brighter; button dimensions stay unchanged. */
+.nav-link.nav-tab-active {
+  border-color:rgba(220,226,236,.58);
+  background:rgba(196,201,209,.17);
+  color:#f1f2f4;
 }
