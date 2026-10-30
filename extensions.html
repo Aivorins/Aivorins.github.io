@@ -880,32 +880,6 @@ nav#nav .nav-link.nav-support {
 
 
     
-    /* Match the homepage navigation's transparent-to-frosted scroll treatment. */
-    nav#nav {
-      background: transparent !important;
-      border: 0 !important;
-      box-shadow: none !important;
-      outline: none !important;
-      transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease, -webkit-backdrop-filter .3s ease !important;
-    }
-    nav#nav::before,
-    nav#nav::after {
-      content: none !important;
-      display: none !important;
-    }
-    nav#nav.scrolled {
-      background: rgba(16,17,20,.92) !important;
-      border: 0 !important;
-      border-bottom: 1px solid var(--border) !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
-    }
-    nav#nav .nav-brand img {
-      width: 36px !important;
-      height: 36px !important;
-      filter: none !important;
-    }
-
     /* Homepage-matched ambient background; no exterior card lighting. */
     body {
       background: radial-gradient(ellipse at 100% 0%, rgba(220,224,231,0.24) 0%, rgba(220,224,231,0.08) 22%, transparent 48%), radial-gradient(ellipse at 0% 100%, rgba(58,63,72,0.82) 0%, rgba(40,44,52,0.38) 30%, transparent 58%), #101114 !important;
@@ -942,7 +916,104 @@ nav#nav .nav-link.nav-support {
     .hero-right:hover .popup-mockup {
       box-shadow: inset 0 1px rgba(255,255,255,0.1) !important;
     }
-  </style>
+  
+    /* Exact homepage navbar styling and responsive behaviour. */
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px clamp(16px, 5vw, 56px);
+      transition: background 0.3s, border-color 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(16,17,20,0.92);
+      backdrop-filter: blur(20px);
+      border-color: var(--border);
+    }
+    .nav-brand {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-link {
+      font-family: var(--mono); font-size: 0.68rem;
+      letter-spacing: 0.08em; color: var(--ink-muted);
+      text-decoration: none; padding: 7px 14px;
+      border-radius: 6px; border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-link:hover { color: var(--ink-soft); border-color: var(--border); }
+    .nav-tab {
+      border-color: rgba(196,201,209,0.35) !important;
+      background: rgba(196,201,209,0.1) !important;
+      color: var(--sage) !important;
+    }
+    .nav-tab:hover { background: rgba(196,201,209,0.2) !important; }
+    .nav-tab-soon { opacity: 0.38; pointer-events: none; cursor: default; }
+    .nav-link.cta {
+      color: var(--sage);
+      border-color: rgba(196,201,209,0.25);
+      background: var(--sage-glow);
+    }
+    .nav-link.cta:hover { background: rgba(196,201,209,0.18); color: var(--sage); }
+
+    .nav-brand img { width:36px !important; height:36px !important; }
+    @media (max-width: 860px) {
+      nav {
+        padding: 14px 20px;
+        gap: 12px;
+      }
+      .nav-links {
+        flex: 1;
+        min-width: 0;
+        justify-content: flex-end;
+        gap: 2px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-link {
+        flex: 0 0 auto;
+        padding: 6px 9px;
+        font-size: 0.62rem;
+      }
+    }
+
+    @media (max-width: 560px) {
+      nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 10px 16px;
+      }
+      .nav-brand { font-size: 1.15rem; }
+      .nav-brand img { width: 30px !important; height: 30px !important; }
+      .nav-links {
+        width: 100%;
+        flex: 0 0 auto;
+        justify-content: flex-start;
+        margin: 0;
+        overflow-x: auto;
+      }
+      .nav-link {
+        display: inline-flex !important;
+        align-items: center;
+        white-space: nowrap;
+        padding: 6px 9px;
+        font-size: 0.6rem;
+      }
+    }
+
+
+</style>
 </head>
 <body>
 
